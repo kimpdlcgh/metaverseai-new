@@ -213,7 +213,7 @@ const EditProfile: React.FC = () => {
         .from('user_profiles')
         .upsert({
           user_id: user.id,
-         email: profile.email,
+          email: profile.email,
           full_name: profile.full_name,
           phone_number: profile.phone_number || null,
           date_of_birth: profile.date_of_birth || null,
@@ -230,7 +230,7 @@ const EditProfile: React.FC = () => {
         .from('profiles')
         .upsert({
           user_id: user.id,
-         email: profile.email,
+          email: profile.email,
           first_name: profile.first_name,
           last_name: profile.last_name,
           professional_bio: profile.professional_bio || null,
@@ -241,7 +241,6 @@ const EditProfile: React.FC = () => {
 
       if (profileError) throw profileError;
 
-      await NotificationService.createNotification(user.id, {
       await NotificationService.createNotification({
         user_id: user.id,
         title: 'Profile Updated',
@@ -290,8 +289,8 @@ const EditProfile: React.FC = () => {
     const cacheBustedUrl = addCacheBustingToUrl(url);
     
     setProfile({
-      ...profile,
-      [field]: cacheBustedUrl
+        ...profile,
+        [field]: cacheBustedUrl
     });
   };
 
