@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TrendingUp, User, LogOut, DollarSign, Target, Clock, Shield, Wallet, BarChart3, Calendar, Percent, HashIcon as CashStack, UserCheck, Tags, ShieldCheck, Building, Home, Car, Send, Award, ArrowUp, ArrowDown, MoreHorizontal, RefreshCw, Search, Settings, Users, Gift, Bell, Grid3X3, Sun, Moon, Menu, AlertTriangle, Calculator, X } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface DashboardProps {
   isDarkMode?: boolean;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  // Use the passed isDarkMode prop but also get the theme from context as fallback
+  const { theme } = useTheme();
+  const actualDarkMode = isDarkMode || theme === 'dark';
   
   // Sample data for the dashboard
   const portfolioData = {

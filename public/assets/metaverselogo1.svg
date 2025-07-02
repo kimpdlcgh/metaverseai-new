@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190.56 40.6">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        font-family: Alternity, Alternity;
+        font-size: 22.81px;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #00abcc;
+      }
+
+      .cls-6 {
+        letter-spacing: -.13em;
+      }
+
+      .cls-5 {
+        font-family: Spaced-Regular, Spaced;
+        font-size: 35.16px;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-2" points=".66 12.09 7.59 3.43 18.29 16.32 12.87 22.87 8.86 17.98 8.89 28.76 11.06 28.76 .51 39.38 .66 12.09"/>
+  <polygon class="cls-4" points="12.79 26.95 31.75 3.43 31.75 32.45 23.34 32.45 23.34 23.02 12.79 26.95"/>
+  <text class="cls-3" transform="translate(34.96 31.36)"><tspan x="0" y="0">Me</tspan><tspan class="cls-6" x="33.63" y="0">t</tspan><tspan class="cls-1" x="44.5" y="0">averse </tspan></text>
+  <text class="cls-5" transform="translate(164.39 29.85) scale(.91 1)"><tspan x="0" y="0">AI</tspan></text>
+</svg>

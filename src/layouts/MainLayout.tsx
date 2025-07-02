@@ -1,4 +1,4 @@
-import React, { useState, useEffect, cloneElement } from 'react';
+import React, { useState, useEffect, cloneElement, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   TrendingUp, 
@@ -7,6 +7,7 @@ import {
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface MainLayoutProps {
   children: React.ReactNode; 
@@ -16,7 +17,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme } = useTheme();
+  const isDarkMode = useMemo(() => theme === 'dark', [theme]);
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [pageTitle, setPageTitle] = useState('Dashboard');
 
@@ -28,10 +31,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
       navigate('/login');
     }
   }, [user, navigate, location]);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -67,7 +66,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   }, [isSidebarOpen, navigate]);
 
   return (
-    <div className={`h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-slate-50 text-gray-900'} transition-colors duration-200 font-opensans overflow-hidden`}>
+    <div className={`h-screen flex flex-col bg-background text-text transition-colors duration-200 font-opensans overflow-hidden`}>
       {/* Fixed Header */}
       <div className="flex-none">
         <Header toggleSidebar={toggleSidebar} pageTitle={pageTitle} />
@@ -81,25 +80,25 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
         {/* Fixed Sidebar */}
         <div className="flex-none sm:relative">
-          <Sidebar isSidebarOpen={isSidebarOpen} isDarkMode={isDarkMode} />
+          <Sidebar isSidebarOpen={isSidebarOpen} />
         </div>
 
         {/* Main Content */}
         <main className="flex-1 w-full min-w-0 overflow-y-auto overflow-x-hidden relative">
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-              return cloneElement(child, { isDarkMode });
+              return cloneElement(child, { isDarkMode: theme === 'dark' });
             }
             return child;
           })}
           
-          {/* Footer */}
+          {/* Footer with theme-aware styling */}
           <footer className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t`}>
             <div className="w-full px-4 sm:px-6 py-4">
               <div className="flex flex-col md:flex-row justify-between items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-500 text-center md:text-left">
                   Copyright @2024, Creatively designed by 
-                  <a href="#" className="text-blue-600 hover:underline ml-1">MetaverseAI</a>
+                  <a href="#" className="text-primary-light hover:underline ml-1">MetaverseAI</a>
                 </span>
                 <div className="flex items-center space-x-2 sm:space-x-4">
                   <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Help</a>

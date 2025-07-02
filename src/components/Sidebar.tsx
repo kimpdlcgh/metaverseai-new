@@ -4,8 +4,6 @@ import {
   Wallet, 
   Target, 
   Building, 
-  Search, 
-  BarChart, 
   BarChart3,
   Calculator, 
   Layers, 
@@ -17,15 +15,16 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SidebarProps {
   isSidebarOpen: boolean;
-  isDarkMode: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
   const { user } = useAuth();
-  const location = useLocation();
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
 
   return (
     <aside 
@@ -49,7 +48,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
       {/* Mobile sidebar header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 sm:hidden">
         <div className="flex items-center">
-          <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="h-8 mr-2 object-contain" />
+          <img 
+            src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"} 
+            alt="MetaverseAI Logo" 
+            className="h-8 mr-2 object-contain" 
+          />
         </div>
         <button className="p-2 hover:bg-gray-100 rounded-lg">
           <X className="w-5 h-5" />

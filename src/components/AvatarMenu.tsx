@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { User, Layout, DollarSign, Gift, Settings, Power, ChevronRight } from 'lucide-react';
+import { User, Layout, DollarSign, Gift, Settings, Power, ChevronRight, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface AvatarMenuProps {
   onSignOut: () => Promise<void>;
@@ -10,7 +10,8 @@ interface AvatarMenuProps {
 
 const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const [isOpen, setIsOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('EN - English');
@@ -166,27 +167,24 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               </div>
             </Link>
             
-            {/* Language dropdown */}
-            <div className="relative">
-              <button 
-                className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors w-full"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsLanguageOpen(!isLanguageOpen);
-                }}
-              >
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex items-center">
-                    <span className="w-5 h-5 mr-3 flex items-center justify-center text-gray-500">🌐</span>
-                    <span className="font-lexend">Language</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-gray-500 text-xs mr-2">{currentLanguage}</span>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </div>
+            {/* Theme Toggle */}
+            <button 
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleTheme();
+              }}
+            >
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center">
+                  {isDarkMode ? 
+                    <Sun className="w-5 h-5 mr-3 text-yellow-500" /> : 
+                    <Moon className="w-5 h-5 mr-3 text-gray-500" />
+                  }
+                  <span className="font-lexend">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
                 </div>
-              </button>
-            </div>
+              </div>
+            </button>
 
             <Link 
               to="/app/settings"

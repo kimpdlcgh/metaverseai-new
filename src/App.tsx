@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -27,14 +28,15 @@ import News from './pages/News';
 
 function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <NotificationProvider>
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signup-success" element={<SignupSuccess />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <NotificationProvider>
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signup-success" element={<SignupSuccess />} />
 
               <Route path="/profile" element={
                 <ProtectedRoute>
@@ -165,9 +167,10 @@ function App() {
               <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
           </Router>
-        </NotificationProvider>
-      </ToastProvider>
-    </AuthProvider>
+          </NotificationProvider>
+        </ToastProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

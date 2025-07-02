@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Search, Sun, Moon, Bell, Menu, Home } from 'lucide-react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AvatarMenu from './AvatarMenu';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -12,11 +13,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' }) => {
   const { signOut } = useAuth();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
 
   const handleSignOut = async () => {
     try {
@@ -29,8 +27,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
 
   return (
     <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b z-50 h-16 w-full`}>
-      <div className="w-full px-4 sm:px-6 h-full">
-        <div className="flex justify-between items-center h-14 sm:h-16">
+      <div className="w-full px-4 sm:px-6 h-full transition-colors">
+        <div className="flex justify-between items-center h-full">
           {/* Mobile Menu Button */}
           <button
             id="menu-button"
@@ -42,8 +40,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
-            <img
-              src="/metaverseailogo.svg"
+            <img 
+              src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"}
               alt="MetaverseAI Logo"
               className="h-9 mr-2 object-contain"
             />
@@ -75,8 +73,9 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
             </button>
 
             <button 
-              onClick={toggleDarkMode}
+              onClick={toggleTheme}
               className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>

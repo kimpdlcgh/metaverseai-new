@@ -2,13 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Default light theme variables */
+  --color-background: #ffffff;
+  --color-background-secondary: #f3f4f6;
+  --color-background-tertiary: #f9fafb;
+  --color-text: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  
+  /* Theme transition */
+  --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease;
+}
+
+.dark {
+  /* Dark theme variables */
+  --color-background: #111827;
+  --color-background-secondary: #1f2937;
+  --color-background-tertiary: #374151;
+  --color-text: #f9fafb;
+  --color-text-secondary: #e5e7eb;
+  --color-text-tertiary: #d1d5db;
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+}
+
 /* PWA and Mobile Optimizations */
 @layer base {
-  html, body {
+  * {
+    transition: var(--theme-transition);
+  }
+  
+  html {
     font-family: 'Open Sans', sans-serif;
     height: 100%;
     width: 100%;
     overflow: hidden; /* Prevent body scrolling */
+  }
+  
+  body {
+    font-family: 'Open Sans', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    @apply bg-background text-text;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -111,19 +150,20 @@
   /* Scrollbar styling for the main content */
   .layout-content::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   
   .layout-content::-webkit-scrollbar-track {
-    background: transparent;
+    @apply bg-transparent;
   }
   
   .layout-content::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.5);
+    @apply bg-gray-300 dark:bg-gray-600;
     border-radius: 6px;
   }
   
   .layout-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 163, 175, 0.7);
+    @apply bg-gray-400 dark:bg-gray-500;
   }
 }
 
@@ -234,16 +274,16 @@ canvas {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.5);
+  @apply bg-gray-300 dark:bg-gray-600;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(156, 163, 175, 0.7);
+  @apply bg-gray-400 dark:bg-gray-500;
 }
 
 /* Loading states */
@@ -258,4 +298,42 @@ canvas {
 
 .loading {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dark mode component overrides */
+.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+.dark .border-gray-100, 
+.dark .border-gray-200 {
+  @apply border-gray-700;
+}
+
+.dark .text-gray-500 {
+  @apply text-gray-400;
+}
+
+.dark .text-gray-600, 
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  @apply text-gray-300;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200 {
+  @apply bg-gray-700;
+}
+
+.dark .hover\:bg-gray-100:hover {
+  @apply hover:bg-gray-700;
+}
+
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl {
+  --tw-shadow-color: rgba(0, 0, 0, 0.3);
 }
