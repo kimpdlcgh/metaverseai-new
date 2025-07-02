@@ -8,7 +8,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   children: React.ReactNode;
   focusable?: boolean;
-  focusable?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -17,7 +16,6 @@ export const Button: React.FC<ButtonProps> = ({
   icon: Icon = undefined,
   loading = false,
   children,
-  focusable = true,
   focusable = true,
   className = 'font-lexend',
   disabled,
