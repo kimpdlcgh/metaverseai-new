@@ -73,6 +73,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
     // Auto-format to E.164 if user enters without +
     if (value && !value.startsWith('+')) {
       return `+${value.replace(/\D/g, '')}`;
+    }
     return value;
   };
 
@@ -188,6 +189,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
             <span>{errors.self_description || ''}</span>
             <span>{formData.self_description.length}/500</span>
           </div>
+        </div>
         
         {/* Navigation controls moved to fixed footer in parent component */}
         <Button type="submit" loading={loading} className="hidden">Continue</Button>
