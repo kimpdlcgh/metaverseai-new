@@ -29,10 +29,21 @@
   --color-border-light: #374873;
 }
 
+/* Animation for modal fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
 /* PWA and Mobile Optimizations */
 @layer base {
   * {
     transition: var(--theme-transition);
+    scroll-behavior: smooth;
   }
   
   html {
@@ -69,6 +80,8 @@
   
   * {
     -webkit-tap-highlight-color: transparent !important;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: thin; /* Firefox */
     -webkit-touch-callout: none !important;
     box-sizing: border-box !important;
   }
@@ -112,6 +125,25 @@
   textarea:focus-visible {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
+  }
+  
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(107, 114, 128, 0.5);
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(107, 114, 128, 0.7);
   }
 }
 
