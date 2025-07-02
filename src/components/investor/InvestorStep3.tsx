@@ -367,9 +367,6 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
         
         {/* Navigation controls moved to fixed footer in parent component */}
         <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>
-        
-        {/* Navigation controls moved to fixed footer in parent component */}
-        <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>
       </form>
     </div>
   );

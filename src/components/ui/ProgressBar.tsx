@@ -21,12 +21,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalStep
                 }
                 ${index + 1 === currentStep ? 'ring-4 ring-emerald-100' : ''}
                 min-h-[44px] min-w-[44px]
-                ${index + 1 === currentStep ? 'ring-4 ring-emerald-100' : ''}
-                min-h-[44px] min-w-[44px]
               `}
-              role="button"
-              tabIndex={0}
-              aria-label={`Step ${index + 1}: ${step} ${index + 1 === currentStep ? '(current step)' : index + 1 < currentStep ? '(completed)' : ''}`}
               role="button"
               tabIndex={0}
               aria-label={`Step ${index + 1}: ${step} ${index + 1 === currentStep ? '(current step)' : index + 1 < currentStep ? '(completed)' : ''}`}
@@ -43,11 +38,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalStep
         <div
           className="bg-emerald-600 h-2 rounded-full transition-all duration-500 ease-in-out"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-          role="progressbar"
-          aria-valuenow={(currentStep / totalSteps) * 100}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={`Step ${currentStep} of ${totalSteps}: ${steps[currentStep-1]}`}
           role="progressbar"
           aria-valuenow={(currentStep / totalSteps) * 100}
           aria-valuemin={0}
