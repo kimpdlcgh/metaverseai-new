@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Wallet, BarChart3, ArrowRight, CheckCircle } from 'lucide-react';
+import { Wallet, BarChart3, ArrowRight, CheckCircle, TrendingUp } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
 export const SignupSuccess: React.FC = () => {
