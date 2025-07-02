@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/metaverseailogo.svg",
+      "src": "/metaverse-fav.svg",
       "sizes": "192x192", 
       "type": "image/svg+xml"
     }
