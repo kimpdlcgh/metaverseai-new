@@ -122,6 +122,15 @@ const EditProfile: React.FC = () => {
         college: profileData?.college || ''
       };
 
+      // Add cache busting parameters to image URLs
+      if (combinedData.avatar_url) {
+        combinedData.avatar_url = addCacheBustingToUrl(combinedData.avatar_url);
+      }
+      
+      if (combinedData.cover_image_url) {
+        combinedData.cover_image_url = addCacheBustingToUrl(combinedData.cover_image_url);
+      }
+
       setProfile(combinedData);
       setInitialProfile(combinedData);
     } catch (error: any) {
@@ -130,6 +139,13 @@ const EditProfile: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to add cache busting parameter to URLs
+  const addCacheBustingToUrl = (url: string): string => {
+    if (!url) return url;
+    const timestamp = new Date().getTime();
+    return url.includes('?') ? `${url}&t=${timestamp}` : `${url}?t=${timestamp}`;
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -265,6 +281,18 @@ const EditProfile: React.FC = () => {
     return JSON.stringify(profile) !== JSON.stringify(initialProfile);
   };
 
+  const handleImageChange = (field: 'avatar_url' | 'cover_image_url', url: string) => {
+    if (!profile) return;
+    
+    // Add cache busting to ensure the image is displayed immediately
+    const cacheBustedUrl = addCacheBustingToUrl(url);
+    
+    setProfile({
+      ...profile,
+      [field]: cacheBustedUrl
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -327,7 +355,7 @@ const EditProfile: React.FC = () => {
                   </label>
                   <ImageUploader
                     imageUrl={profile.avatar_url}
-                    onImageChange={(url) => handleInputChange('avatar_url', url)}
+                    onImageChange={(url) => handleImageChange('avatar_url', url)}
                     type="avatar"
                   />
                 </div>
@@ -338,7 +366,7 @@ const EditProfile: React.FC = () => {
                   </label>
                   <ImageUploader
                     imageUrl={profile.cover_image_url}
-                    onImageChange={(url) => handleInputChange('cover_image_url', url)}
+                    onImageChange={(url) => handleImageChange('cover_image_url', url)}
                     type="cover"
                   />
                 </div>

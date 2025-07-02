@@ -120,7 +120,9 @@ export class ProfileService {
 
       // Create a unique file path: use user ID as a folder
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
+      // Add timestamp to ensure uniqueness and cache busting
+      const timestamp = Date.now();
+      const fileName = `${timestamp}.${fileExt}`;
       const filePath = `avatars/${userId}/${fileName}`;
       console.log(`Uploading avatar for user ${userId} to path: ${filePath}`);
 
@@ -140,12 +142,15 @@ export class ProfileService {
       const { data } = supabase.storage
         .from('profile-images')
         .getPublicUrl(filePath);
+        
+      // Add cache-busting parameter to URL
+      const publicUrl = `${data.publicUrl}?t=${timestamp}`;
       console.log(`Avatar uploaded successfully: ${data.publicUrl}`);
 
       // Update the user profile with the new avatar URL
-      await this.updateProfileImages(userId, { avatar_url: data.publicUrl }, userEmail, userFullName);
+      await this.updateProfileImages(userId, { avatar_url: publicUrl }, userEmail, userFullName);
 
-      return data.publicUrl;
+      return publicUrl;
     } catch (error: any) {
       console.error('Error uploading avatar:', error);
       throw error;
@@ -186,7 +191,9 @@ export class ProfileService {
 
       // Create a unique file path: use user ID as a folder
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
+      // Add timestamp to ensure uniqueness and cache busting
+      const timestamp = Date.now();
+      const fileName = `${timestamp}.${fileExt}`;
       const filePath = `covers/${userId}/${fileName}`;
       console.log(`Uploading cover photo for user ${userId} to path: ${filePath}`);
 
@@ -206,12 +213,15 @@ export class ProfileService {
       const { data } = supabase.storage
         .from('profile-images')
         .getPublicUrl(filePath);
+        
+      // Add cache-busting parameter to URL
+      const publicUrl = `${data.publicUrl}?t=${timestamp}`;
       console.log(`Cover photo uploaded successfully: ${data.publicUrl}`);
 
       // Update the user profile with the new cover photo URL
-      await this.updateProfileImages(userId, { cover_image_url: data.publicUrl }, userEmail, userFullName);
+      await this.updateProfileImages(userId, { cover_image_url: publicUrl }, userEmail, userFullName);
 
-      return data.publicUrl;
+      return publicUrl;
     } catch (error: any) {
       console.error('Error uploading cover photo:', error);
       throw error;
@@ -234,10 +244,10 @@ export class ProfileService {
   ): Promise<any> {
     try {
       // Validate the URLs if provided
-      if (updates.avatar_url && !this.isValidUrl(updates.avatar_url)) {
+      if (updates.avatar_url && !this.isValidUrl(this.stripCacheBusting(updates.avatar_url))) {
         throw new Error('Invalid avatar URL');
       }
-      if (updates.cover_image_url && !this.isValidUrl(updates.cover_image_url)) {
+      if (updates.cover_image_url && !this.isValidUrl(this.stripCacheBusting(updates.cover_image_url))) {
         throw new Error('Invalid cover image URL');
       }
 
@@ -306,6 +316,21 @@ export class ProfileService {
     } catch (error: any) {
       console.error('Error updating profile images:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Strips cache busting parameters from URLs for validation.
+   * @param url - The URL to strip cache busting parameters from.
+   * @returns The URL without cache busting parameters.
+   */
+  private static stripCacheBusting(url: string): string {
+    try {
+      const urlObj = new URL(url);
+      urlObj.search = '';
+      return urlObj.toString();
+    } catch {
+      return url;
     }
   }
 

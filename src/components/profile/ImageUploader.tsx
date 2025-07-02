@@ -30,10 +30,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isAvatar = type === 'avatar';
   const imageTypeLabel = isAvatar ? 'profile picture' : 'cover photo';
+  
+  // Add cache-busting parameter to the image URL if it exists
+  const cacheBustedImageUrl = useMemo(() => {
+    if (!imageUrl) return null;
+    const timestamp = new Date().getTime();
+    return imageUrl.includes('?') ? `${imageUrl}&t=${timestamp}` : `${imageUrl}?t=${timestamp}`;
+  }, [imageUrl]);
 
   const handleFileSelected = useCallback(async (file: File) => {
     setError(null);
     setSuccess(false);
+    setPreviewUrl(null);
 
     // Validate user authentication and required data first
     if (!user) {
@@ -83,13 +91,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     try {
       // Upload based on type
       let imageUrl;
-      
-      if (ProfileService && typeof ProfileService.uploadAvatar === 'function' && typeof ProfileService.uploadCoverPhoto === 'function') {
-        if (isAvatar) {
-          imageUrl = await ProfileService.uploadAvatar(
-            user.id, 
-            file, 
-            userEmail,
+
+          p_action_url: actionUrl || null,  // Ensure parameter order matches the function definition
+          p_expires_at: expiresAt ? expiresAt.toISOString() : null,
+          p_message: message,
+          p_title: title,
+          p_type: type,
+          p_user_id: userId
             userFullName,
             (progress) => setUploadProgress(progress)
           );
@@ -178,7 +186,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp" // Specify accepted image formats
         onChange={handleFileInputChange}
         className="hidden"
       />
@@ -195,10 +203,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         onDrop={handleDrop}
         onClick={triggerFileInput}
       >
-        {previewUrl ? (
+        {previewUrl || cacheBustedImageUrl ? (
           <div className="relative w-full h-full group">
             <img
-              src={previewUrl}
+              src={previewUrl || cacheBustedImageUrl}
               alt={`${isAvatar ? 'Avatar' : 'Cover'} preview`}
               className={`w-full h-full object-cover ${isAvatar ? 'rounded-full' : 'rounded-lg'}`}
             />

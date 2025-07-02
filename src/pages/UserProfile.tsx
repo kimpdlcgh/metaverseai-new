@@ -73,7 +73,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ isDarkMode = false }) => {
       fetchUserProfile();
       fetchNotifications();
     }
-  }, [user]);
+  }, [user]); 
+
+  // Function to add cache busting parameter to image URLs
+  const getCacheBustedUrl = (url: string | null | undefined): string => {
+    if (!url) return '';
+    
+    const timestamp = new Date().getTime();
+    return url.includes('?') ? `${url}&t=${timestamp}` : `${url}?t=${timestamp}`;
+  };
 
   const fetchNotifications = async () => {
     try {
@@ -218,7 +226,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isDarkMode = false }) => {
         <div className="h-64 w-full rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden mb-4">
           {profile?.cover_image_url ? (
             <img 
-              src={profile.cover_image_url} 
+              src={getCacheBustedUrl(profile.cover_image_url)} 
               alt="Cover" 
               className="w-full h-full object-cover opacity-80"
             />
@@ -237,7 +245,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isDarkMode = false }) => {
             <div className="avatar h-40 w-40 rounded-full bg-white p-1 shadow-lg">
               {profile?.avatar_url ? (
                 <img 
-                  src={profile.avatar_url} 
+                  src={getCacheBustedUrl(profile.avatar_url)} 
                   alt={profile?.full_name} 
                   className="rounded-full w-full h-full object-cover"
                 />
