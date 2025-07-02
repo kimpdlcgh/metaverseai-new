@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { 
-  TrendingUp, 
   User, 
   LogOut, 
   Settings, 
@@ -56,7 +55,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
               <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mr-2 sm:mr-3" />
               <div>
                 <h1 className="text-lg sm:text-xl font-bold">InvestmentUX</h1>
-                <p className="text-xs text-gray-500 hidden sm:block">AdminUIUX HTML template</p>
+                <p className="text-xs text-gray-500 hidden sm:block">MetaverseAI Platform</p>
               </div>
             </div>
 
