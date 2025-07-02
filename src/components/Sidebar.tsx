@@ -32,16 +32,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
       id="mobile-sidebar"
       className={`
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-        sm:translate-x-0 
+        sm:translate-x-0
         fixed sm:sticky 
-        top-0 sm:top-16 
+        top-0 
         left-0 
         w-64 sm:w-64 
-        h-screen sm:h-[calc(100vh-4rem)] 
+        h-screen sm:h-full
         ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} 
         border-r 
         transition-transform duration-300 ease-in-out 
-        z-50 sm:z-auto 
+        z-50 sm:z-30 
         flex flex-col
         overflow-y-auto
       `}

@@ -36,19 +36,20 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-200`}>
-      {/* Mobile Header */}
-      <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b sticky top-0 z-50`}>
-        <div className="w-full px-4 sm:px-6">
-          <div className="flex justify-between items-center h-14 sm:h-16">
-            {/* Mobile Menu Button */}
-            <button
-              id="menu-button"
-              onClick={toggleSidebar}
-              className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors sm:hidden`}
-            >
-              <TrendingUp className="w-5 h-5" />
-            </button>
+    <div className={`h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-200 overflow-hidden`}>
+      {/* Fixed Header */}
+      <div className="flex-none">
+        <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b z-50 h-16`}>
+          <div className="w-full px-4 sm:px-6 h-full">
+            <div className="flex justify-between items-center h-14 sm:h-16">
+              {/* Mobile Menu Button */}
+              <button
+                id="menu-button"
+                onClick={toggleSidebar}
+                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors sm:hidden`}
+              >
+                <TrendingUp className="w-5 h-5" />
+              </button>
 
             {/* Logo */}
             <div className="flex items-center">
@@ -93,34 +94,35 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
               </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
-      <div className="flex">
+      <div className="flex flex-1 overflow-hidden">
         {/* Mobile Sidebar Overlay */}
         {isSidebarOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden" onClick={() => setIsSidebarOpen(false)} />
         )}
 
         {/* Sidebar */}
-        <aside 
-          id="mobile-sidebar"
-          className={`
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-            sm:translate-x-0 
-            fixed sm:sticky 
-            top-0 sm:top-16 
-            left-0 
-            w-64 sm:w-64 
-            h-screen sm:h-[calc(100vh-4rem)] 
-            ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} 
-            border-r 
-            transition-transform duration-300 ease-in-out 
-            z-50 sm:z-auto 
-            flex flex-col
-            overflow-y-auto
-          `}
-        >
+        <div className="flex-none sm:relative">
+          <aside 
+            id="mobile-sidebar"
+            className={`
+              ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+              sm:translate-x-0 
+              fixed sm:relative
+              top-0
+              left-0 
+              w-64 sm:w-64 
+              h-screen sm:h-full
+              ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} 
+              border-r 
+              transition-transform duration-300 ease-in-out 
+              z-50 sm:z-30
+              flex flex-col
+              overflow-y-auto
+            `}
+          >
           <div className="p-4 flex-1 flex flex-col">
             <div className="mb-6">
               <h6 className="text-sm font-medium mb-4">Main Menu</h6>
@@ -166,14 +168,15 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
               </a>
             </nav>
           </div>
-        </aside>
+          </aside>
+        </div>
 
         {/* Main Content */}
-        <main className="flex-1 w-full min-w-0">
-          <div className="container mt-4">
-            <div className="row">
-              <div className="col-12 col-md-4 col-lg-4 col-xl-3">
-                <div className="position-sticky" style={{ top: '5.5rem' }}>
+        <main className="flex-1 overflow-y-auto overflow-x-hidden relative">
+          <div className="container p-4 sm:p-6">
+            <div className="flex flex-col lg:flex-row gap-6">
+              <div className="w-full lg:w-1/4">
+                <div className="sticky top-0 pt-4">
                   <div className="card bg-white rounded-lg shadow-sm mb-4">
                     <div className="card-body">
                       <ul className="nav nav-pills flex-column">
@@ -263,33 +266,32 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
                   </div>
                 </div>
               </div>
-              <div className="col">
+              <div className="w-full lg:w-3/4">
                 {children}
               </div>
             </div>
           </div>
+          
+          {/* Footer */}
+          <footer className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t`}>
+            <div className="w-full px-4 sm:px-6 py-4">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-2">
+                <span className="text-xs sm:text-sm text-gray-500 text-center md:text-left">
+                  Copyright @2024, Creatively designed by 
+                  <a href="#" className="text-blue-600 hover:underline ml-1">MetaverseAI</a>
+                </span>
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Help</a>
+                  <span className="text-gray-300">|</span>
+                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Terms of Use</a>
+                  <span className="text-gray-300">|</span>
+                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Privacy Policy</a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </main>
       </div>
-
-      {/* Footer */}
-      <footer className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-t mt-auto`}>
-        <div className="w-full px-4 sm:px-6 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-2">
-            <span className="text-xs sm:text-sm text-gray-500 text-center md:text-left">
-              Copyright @2024, Creatively designed by 
-              <a href="#" className="text-blue-600 hover:underline ml-1">InvestmentUX - Adminuiux</a> 
-              on Earth ❤️
-            </span>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Help</a>
-              <span className="text-gray-300">|</span>
-              <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Terms of Use</a>
-              <span className="text-gray-300">|</span>
-              <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 touch-manipulation">Privacy Policy</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

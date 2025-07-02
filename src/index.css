@@ -4,8 +4,11 @@
 
 /* PWA and Mobile Optimizations */
 @layer base {
-  body, html {
+  html, body {
     font-family: 'Open Sans', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent body scrolling */
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -15,17 +18,14 @@
   html {
     touch-action: manipulation !important;
     -webkit-overflow-scrolling: touch !important;
-    -webkit-text-size-adjust: 100% !important;
-    scroll-behavior: smooth !important;
+    -webkit-text-size-adjust: 100% !important; 
+    scroll-behavior: smooth !important; 
   }
   
   body {
     overscroll-behavior: none !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
   }
   
   * {
@@ -68,11 +68,62 @@
   /* Focus styles for accessibility */
   button:focus-visible,
   a:focus-visible,
-  input:focus-visible,
-  select:focus-visible,
+  input:focus-visible, 
+  select:focus-visible, 
   textarea:focus-visible {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
+  }
+}
+
+/* Fixed layout specific styles */
+@layer components {
+  .layout-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+  
+  .layout-header {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+    z-index: 50;
+  }
+  
+  .layout-sidebar {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    z-index: 40;
+    height: 100%;
+  }
+  
+  .layout-content {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+  /* Scrollbar styling for the main content */
+  .layout-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .layout-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .layout-content::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 6px;
+  }
+  
+  .layout-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.7);
   }
 }
 

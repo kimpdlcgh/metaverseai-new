@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
   };
 
   return (
-    <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b sticky top-0 z-50 h-16`}>
+    <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b z-50 h-16 w-full`}>
       <div className="w-full px-4 sm:px-6 h-full">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Mobile Menu Button */}
