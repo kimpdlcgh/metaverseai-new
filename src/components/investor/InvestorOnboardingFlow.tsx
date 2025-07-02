@@ -16,6 +16,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [skipModalOpen, setSkipModalOpen] = useState(false);
 
   useEffect(() => {
     loadExistingData();
@@ -107,6 +108,10 @@ export const InvestorOnboardingFlow: React.FC = () => {
     setShowConfirmModal(false);
   };
 
+  const cancelSkip = () => {
+    setSkipModalOpen(false);
+  };
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
@@ -189,64 +194,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
       {/* Fixed navigation footer with styled buttons matching screenshot */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 z-50">
         <div className="max-w-3xl mx-auto flex justify-end space-x-3">
-          {currentStep > 1 && (
-            <button
-              onClick={handlePrevious}
-              disabled={formSubmitting}
-              className="min-w-[120px] min-h-[44px] bg-blue-100 text-blue-700 px-6 py-2.5 rounded-lg hover:bg-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              Previous
-            </button>
-          )}
-          
-          {currentStep === 3 ? (
-            <button
-              onClick={handleComplete}
-              disabled={formSubmitting}
-              className="min-w-[120px] min-h-[44px] bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              Complete
-            </button>
-          ) : (
-            <button
-              onClick={handleNext}
-              disabled={formSubmitting}
-              className="min-w-[120px] min-h-[44px] bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              Next
-            </button>
-          )}
-        </div>
-      </div>
-      
-      {/* Skip confirmation modal */}
-      {showConfirmModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-bold mb-2">Skip Onboarding?</h3>
-            <p className="text-gray-600 mb-6">
-              If you skip the onboarding process, you can always complete your profile later from your account settings.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={closeConfirmModal}
-                className="px-4 py-2 min-h-[44px] min-w-[100px] border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmSkip}
-                className="px-4 py-2 min-h-[44px] min-w-[100px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Skip Onboarding
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+          <button
             onClick={currentStep === 1 ? handleSkip : handlePrevious}
             className="px-6 py-3 min-h-[44px] min-w-[100px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm"
           >
