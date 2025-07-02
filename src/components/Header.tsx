@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Sun, Moon, Bell, Menu, Home, Globe } from 'lucide-react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AvatarMenu from './AvatarMenu';
@@ -112,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
                   ))}
                 </div>
               )}
-            </button>
+            </div>
 
             <button 
               onClick={toggleTheme}
