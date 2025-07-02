@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { Upload, X, AlertTriangle, CheckCircle } from 'lucide-react';
 import { ProfileService } from '../../services/profileService';
 import { useAuth } from '../../contexts/AuthContext';
@@ -91,13 +91,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     try {
       // Upload based on type
       let imageUrl;
-
-          p_action_url: actionUrl || null,  // Ensure parameter order matches the function definition
-          p_expires_at: expiresAt ? expiresAt.toISOString() : null,
-          p_message: message,
-          p_title: title,
-          p_type: type,
-          p_user_id: userId
+      if (ProfileService) {
+        if (isAvatar) {
+          imageUrl = await ProfileService.uploadAvatar(
+            user.id,
+            file,
+            userEmail,
             userFullName,
             (progress) => setUploadProgress(progress)
           );
@@ -186,7 +185,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp" // Specify accepted image formats
+        accept="image/jpeg,image/png,image/webp"
         onChange={handleFileInputChange}
         className="hidden"
       />
