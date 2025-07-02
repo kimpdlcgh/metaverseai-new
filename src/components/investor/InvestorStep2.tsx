@@ -8,11 +8,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import { COUNTRIES } from '../../types/investor';
 
 interface InvestorStep2Props {
-  onNext: () => void;
-  onPrevious: () => void;
+  onSubmit: (data: any) => Promise<void>;
 }
 
-export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious }) => {
+export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     house_number: '',
@@ -79,14 +78,7 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious
     setLoading(true);
 
     try {
-      await InvestorService.saveStep2Data(user.id, formData);
-      onNext();
-    } catch (error: any) {
-      console.error('Error saving step 2:', error);
-      setErrors({ general: error.message || 'Failed to save address information. Please try again.' });
-    } finally {
-      setLoading(false);
-    }
+      await onSubmit(formData);
   };
 
   return (
@@ -202,8 +194,10 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious
         </div>
         
         {/* Navigation controls moved to fixed footer in parent component */}
-        <Button type="submit" loading={loading} className="hidden">Continue</Button>
+        <button type="submit" className="sr-only">Submit</button>
       </form>
     </div>
+  );
+};
   );
 };

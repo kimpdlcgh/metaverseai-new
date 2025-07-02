@@ -5,7 +5,7 @@ import { InvestorService } from '../../services/investorService';
 import { InvestorValidationUtils } from '../../utils/investorValidation';
 import { useAuth } from '../../contexts/AuthContext';
 import { 
-  INCOME_RANGES, 
+  INCOME_RANGES,
   NET_WORTH_RANGES, 
   INVESTMENT_GOALS, 
   INVESTMENT_SECTORS, 
@@ -14,11 +14,10 @@ import {
 } from '../../types/investor';
 
 interface InvestorStep3Props {
-  onComplete: () => void;
-  onPrevious: () => void;
+  onSubmit: (data: any) => Promise<void>;
 }
 
-export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrevious }) => {
+export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     investment_experience: 'beginner',
@@ -104,14 +103,7 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
     setLoading(true);
 
     try {
-      await InvestorService.saveStep3Data(user.id, formData);
-      onComplete();
-    } catch (error: any) {
-      console.error('Error saving step 3:', error);
-      setErrors({ general: error.message || 'Failed to save investment profile. Please try again.' });
-    } finally {
-      setLoading(false);
-    }
+      await onSubmit(formData);
   };
 
   return (
@@ -365,9 +357,10 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
           </div>
         </div>
         
-        {/* Navigation controls moved to fixed footer in parent component */}
-        <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>
+        <button type="submit" className="sr-only">Submit</button>
       </form>
     </div>
+  );
+};
   );
 };

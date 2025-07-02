@@ -6,17 +6,16 @@ import { InvestorStep2 } from './InvestorStep2';
 import { InvestorStep3 } from './InvestorStep3';
 import { InvestorService } from '../../services/investorService';
 import { useAuth } from '../../contexts/AuthContext';
-import { useToast } from '../../contexts/ToastContext';
 
-const INVESTOR_STEPS = ['Personal Info', 'Address', 'Investment Profile'];
+const INVESTOR_STEPS = ['Details', 'Address', 'Interest Areas'];
 
 export const InvestorOnboardingFlow: React.FC = () => {
   const { user, checkOnboardingStatus } = useAuth();
-  const { showToast } = useToast();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [skipModalOpen, setSkipModalOpen] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     loadExistingData();
@@ -46,39 +45,66 @@ export const InvestorOnboardingFlow: React.FC = () => {
     }
   };
 
-  const handleNext = () => {
+  const handleStepSubmit = async (data: any) => {
+    setFormSubmitting(true);
+    
+    try {
+      // Save data based on current step
+      if (currentStep === 1) {
+        await InvestorService.saveStep1Data(user!.id, data);
+      } else if (currentStep === 2) {
+        await InvestorService.saveStep2Data(user!.id, data);
+      } else if (currentStep === 3) {
+        await InvestorService.saveStep3Data(user!.id, data);
+        // Don't auto-advance after step 3 - wait for explicit completion
+        setFormSubmitting(false);
+        return;
+      }
+      
+      // Advance to next step
+      handleNext();
+    } catch (error: any) {
+      console.error(`Error saving step ${currentStep} data:`, error);
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
+  const handleNext = async () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
+      // Scroll to top when changing steps
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      // Scroll to top when changing steps
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handleComplete = async () => {
-    showToast('success', 'Profile setup completed successfully!');
     // Refresh onboarding status in auth context
     await checkOnboardingStatus();
     navigate('/dashboard');
   };
 
   const handleSkip = () => {
-    setSkipModalOpen(true);
+    setShowConfirmModal(true);
   };
 
   const confirmSkip = () => {
     // Save user preference to skip onboarding
     localStorage.setItem('onboardingSkipped', 'true');
-    showToast('info', 'Onboarding skipped. You can complete your profile later in settings.');
     navigate('/dashboard');
-    setSkipModalOpen(false);
+    setShowConfirmModal(false);
   };
 
-  const cancelSkip = () => {
-    setSkipModalOpen(false);
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
   };
 
   const renderCurrentStep = () => {
@@ -86,22 +112,19 @@ export const InvestorOnboardingFlow: React.FC = () => {
       case 1:
         return (
           <InvestorStep1
-            onNext={handleNext}
-            onSkip={handleSkip}
+            onSubmit={handleStepSubmit}
           />
         );
       case 2:
         return (
           <InvestorStep2
-            onNext={handleNext}
-            onPrevious={handlePrevious}
+            onSubmit={handleStepSubmit}
           />
         );
       case 3:
         return (
           <InvestorStep3
-            onComplete={handleComplete}
-            onPrevious={handlePrevious}
+            onSubmit={handleStepSubmit}
           />
         );
       default:
@@ -118,49 +141,112 @@ export const InvestorOnboardingFlow: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 overflow-hidden">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10 pointer-events-none"></div>
 
       {/* Skip button in top-right */}
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-5 right-5 z-50">
         <button 
           onClick={handleSkip}
           aria-label="Skip onboarding"
-          className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full hover:bg-white/30 transition-colors shadow-md min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="bg-white text-gray-500 font-medium px-6 py-2 rounded-full hover:bg-gray-100 transition-colors shadow-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
           Skip <span aria-hidden="true" className="ml-1">→</span>
         </button>
       </div>
 
-      <div className="relative max-w-4xl mx-auto pt-4">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
-            <img src="/assets/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
+      <div className="relative max-w-3xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="flex items-center justify-center mb-8">
+            <div className="mr-4">
+              <h1 className="text-3xl font-bold text-gray-800 font-lexend">Getting started is easy & quick!</h1>
+              <p className="text-gray-600 mt-2">Provide your information to quick start appointment bookings.</p>
+            </div>
+            <div className="flex-shrink-0">
+              <div className="p-2 bg-white rounded-lg shadow-sm">
+                <img src="/assets/metaverseailogo.svg" alt="Investment Logo" className="w-16 h-16 object-contain" />
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Investor Profile Setup</h1>
-          <p className="text-slate-300">Complete your investor profile to get personalized investment recommendations</p>
         </div>
         
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl mb-20">
-          <div className="p-6 sm:p-8">
+        <div className="bg-white rounded-2xl shadow-sm mb-20">
+          <div className="p-6">
             <ProgressBar 
               currentStep={currentStep} 
               totalSteps={3} 
               steps={INVESTOR_STEPS} 
             />
-          </div>
-          
-          {/* Scrollable content area */}
-          <div className="px-6 sm:px-8 pb-24 overflow-y-auto max-h-[calc(100vh-300px)]">
-            {renderCurrentStep()}
+            
+            {/* Form content area with proper scrolling */}
+            <div className="py-6 overflow-y-auto max-h-[calc(100vh-280px)]" style={{ scrollbarWidth: 'thin' }}>
+              {renderCurrentStep()}
+            </div>
           </div>
         </div>
       </div>
       
-      {/* Fixed navigation footer - now fixed to viewport */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white border-t border-gray-200 shadow-lg z-50">
-        <div className="max-w-4xl mx-auto flex justify-between">
-          <button
+      {/* Fixed navigation footer with styled buttons matching screenshot */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 z-50">
+        <div className="max-w-3xl mx-auto flex justify-end space-x-3">
+          {currentStep > 1 && (
+            <button
+              onClick={handlePrevious}
+              disabled={formSubmitting}
+              className="min-w-[120px] min-h-[44px] bg-blue-100 text-blue-700 px-6 py-2.5 rounded-lg hover:bg-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              Previous
+            </button>
+          )}
+          
+          {currentStep === 3 ? (
+            <button
+              onClick={handleComplete}
+              disabled={formSubmitting}
+              className="min-w-[120px] min-h-[44px] bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              Complete
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              disabled={formSubmitting}
+              className="min-w-[120px] min-h-[44px] bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              Next
+            </button>
+          )}
+        </div>
+      </div>
+      
+      {/* Skip confirmation modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
+            <h3 className="text-lg font-bold mb-2">Skip Onboarding?</h3>
+            <p className="text-gray-600 mb-6">
+              If you skip the onboarding process, you can always complete your profile later from your account settings.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={closeConfirmModal}
+                className="px-4 py-2 min-h-[44px] min-w-[100px] border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmSkip}
+                className="px-4 py-2 min-h-[44px] min-w-[100px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Skip Onboarding
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
             onClick={currentStep === 1 ? handleSkip : handlePrevious}
             className="px-6 py-3 min-h-[44px] min-w-[100px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm"
           >

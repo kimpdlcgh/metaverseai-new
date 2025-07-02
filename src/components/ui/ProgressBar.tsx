@@ -8,18 +8,18 @@ interface ProgressBarProps {
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, steps }) => {
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-4">
+    <div className="w-full mb-4">
+      <div className="flex items-center justify-between">
         {steps.map((step, index) => (
-          <div key={index} className="flex flex-col items-center">
+          <div key={index} className="flex flex-col items-center relative">
             <div
               className={`focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium
+                w-14 h-14 rounded-full flex items-center justify-center text-base font-medium
                 ${index + 1 <= currentStep
-                  ? 'bg-emerald-600 text-white'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-slate-200 text-slate-500'
                 }
-                ${index + 1 === currentStep ? 'ring-4 ring-emerald-100' : ''}
+                ${index + 1 === currentStep ? 'ring-4 ring-blue-100' : ''}
                 min-h-[44px] min-w-[44px]
               `}
               role="button"
@@ -28,23 +28,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalStep
             >
               {index + 1}
             </div>
-            <span className="text-xs mt-2 text-slate-600 text-center max-w-[80px]">
+            <span className="text-sm mt-3 font-medium text-center">
               {step}
             </span>
+            {index < steps.length - 1 && (
+              <div className={`absolute top-7 left-full w-full h-[2px] ${index + 1 < currentStep ? 'bg-blue-600' : 'bg-slate-200'}`} style={{ width: 'calc(100% - 56px)', left: '56px' }}></div>
+            )}
           </div>
         ))}
       </div>
-      <div className="w-full bg-slate-200 rounded-full h-2">
-        <div
-          className="bg-emerald-600 h-2 rounded-full transition-all duration-500 ease-in-out"
-          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-          role="progressbar"
-          aria-valuenow={(currentStep / totalSteps) * 100}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={`Step ${currentStep} of ${totalSteps}: ${steps[currentStep-1]}`}
-        ></div>
-      </div>
+      <div className="w-full h-1.5 bg-blue-600 transition-all duration-500 ease-in-out rounded-full mt-4"></div>
     </div>
   );
 };
