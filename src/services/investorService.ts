@@ -81,11 +81,16 @@ export class InvestorService {
 
     try {
       // Check if investor already exists
-      const { data: existingInvestor } = await supabase
+      const { data: existingInvestor, error: fetchError } = await supabase
         .from('investors')
         .select('investor_id')
         .eq('user_id', userId)
         .maybeSingle();
+      
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        console.error('Error checking for existing investor:', fetchError);
+        throw fetchError;
+      }
 
       if (existingInvestor) {
         // Update existing investor
@@ -93,20 +98,22 @@ export class InvestorService {
           .from('investors')
           .update(sanitizedData)
           .eq('user_id', userId)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!updatedInvestor) throw new Error('Failed to update investor profile');
         return updatedInvestor;
       } else {
         // Create new investor
         const { data: newInvestor, error } = await supabase
           .from('investors')
           .insert(sanitizedData)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!newInvestor) throw new Error('Failed to create investor profile');
         return newInvestor;
       }
     } catch (error) {
@@ -134,7 +141,12 @@ export class InvestorService {
         .eq('user_id', userId)
         .single();
 
-      if (investorError || !investor) {
+      if (investorError) {
+        console.error('Error fetching investor:', investorError);
+        throw investorError;
+      }
+      
+      if (!investor) {
         throw new Error('Investor profile not found. Please complete step 1 first.');
       }
 
@@ -163,20 +175,22 @@ export class InvestorService {
           .from('investor_addresses')
           .update(sanitizedData)
           .eq('investor_id', investor.investor_id)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!updatedAddress) throw new Error('Failed to update address');
         return updatedAddress;
       } else {
         // Create new address
         const { data: newAddress, error } = await supabase
           .from('investor_addresses')
           .insert(sanitizedData)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!newAddress) throw new Error('Failed to create address');
         return newAddress;
       }
     } catch (error) {
@@ -204,7 +218,12 @@ export class InvestorService {
         .eq('user_id', userId)
         .single();
 
-      if (investorError || !investor) {
+      if (investorError) {
+        console.error('Error fetching investor:', investorError);
+        throw investorError;
+      }
+      
+      if (!investor) {
         throw new Error('Investor profile not found. Please complete step 1 first.');
       }
 
@@ -235,20 +254,22 @@ export class InvestorService {
           .from('investment_profiles')
           .update(sanitizedData)
           .eq('investor_id', investor.investor_id)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!updatedProfile) throw new Error('Failed to update investment profile');
         return updatedProfile;
       } else {
         // Create new profile
         const { data: newProfile, error } = await supabase
           .from('investment_profiles')
           .insert(sanitizedData)
-          .select()
+          .select('*')
           .single();
 
         if (error) throw error;
+        if (!newProfile) throw new Error('Failed to create investment profile');
         return newProfile;
       }
     } catch (error) {
