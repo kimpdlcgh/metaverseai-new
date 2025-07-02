@@ -76,6 +76,8 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
     }
     // Navigate to dashboard when skip is clicked
     navigate('/dashboard');
+  
+  // Skip function now handled in the parent component
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,8 +99,8 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
   };
 
   return (
-    <div className="space-y-6 max-h-[70vh] overflow-y-auto px-2">
-      <div className="text-center">
+    <div className="space-y-6 focus:outline-none" tabIndex={-1} id="step1-content">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Personal Information</h2>
         <p className="text-slate-600">Tell us about yourself to get started</p>
       </div>
@@ -196,18 +198,12 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
           <p className="text-blue-700 text-sm">
             <strong>Privacy Notice:</strong> Your personal information is encrypted and used only 
             for account verification and personalized investment recommendations. We never share 
-            your personal information with third parties.
+            your personal information with third parties. This information helps us provide a more tailored experience.
           </p>
         </div>
-
-        <div className="flex justify-between pt-6">
-          <Button variant="ghost" type="button" onClick={onSkip} className="z-10">
-            Skip
-          </Button>
-          <Button type="submit" loading={loading}>
-            Continue
-          </Button>
-        </div>
+        
+        {/* Navigation controls moved to fixed footer in parent component */}
+        <Button type="submit" loading={loading} className="hidden">Continue</Button>
       </form>
     </div>
   );

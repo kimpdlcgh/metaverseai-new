@@ -90,8 +90,8 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
+    <div className="space-y-6 focus:outline-none" tabIndex={-1} id="step2-content">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Residential Address</h2>
         <p className="text-slate-600">We need your address for regulatory compliance</p>
       </div>
@@ -200,15 +200,9 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious
             ensure compliance with financial regulations in your jurisdiction.
           </p>
         </div>
-
-        <div className="flex justify-between pt-6">
-          <Button variant="ghost" type="button" onClick={onPrevious}>
-            Previous
-          </Button>
-          <Button type="submit" loading={loading}>
-            Continue
-          </Button>
-        </div>
+        
+        {/* Navigation controls moved to fixed footer in parent component */}
+        <Button type="submit" loading={loading} className="hidden">Continue</Button>
       </form>
     </div>
   );

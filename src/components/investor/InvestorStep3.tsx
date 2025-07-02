@@ -115,8 +115,8 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
+    <div className="space-y-8 focus:outline-none" tabIndex={-1} id="step3-content">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Investment Profile</h2>
         <p className="text-slate-600">Help us understand your investment preferences and goals</p>
       </div>
@@ -369,18 +369,12 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
           <p className="text-green-700 text-sm">
             <strong>Almost done!</strong> This information helps us provide personalized 
             investment recommendations and ensure regulatory compliance. All data is 
-            securely encrypted and never shared with third parties.
+            securely encrypted and never shared with third parties. You're on the final step!
           </p>
         </div>
-
-        <div className="flex justify-between pt-6">
-          <Button variant="ghost" type="button" onClick={onPrevious}>
-            Previous
-          </Button>
-          <Button type="submit" loading={loading}>
-            Complete Profile
-          </Button>
-        </div>
+        
+        {/* Navigation controls moved to fixed footer in parent component */}
+        <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>
       </form>
     </div>
   );
