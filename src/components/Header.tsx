@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Sun, Moon, Bell, Menu, Home } from 'lucide-react';
+import { Search, Sun, Moon, Bell, Menu, Home, Globe } from 'lucide-react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AvatarMenu from './AvatarMenu';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,7 +14,16 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
   const { signOut } = useAuth();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const [showLanguages, setShowLanguages] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('EN - English');
   const isDarkMode = theme === 'dark';
+
+  const languages = [
+    { code: 'EN', name: 'English' },
+    { code: 'FR', name: 'French' },
+    { code: 'CH', name: 'Chinese' },
+    { code: 'HI', name: 'Hindi' }
+  ];
 
   const handleSignOut = async () => {
     try {
@@ -23,6 +32,12 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleLanguageSelect = (code: string, name: string) => {
+    setCurrentLanguage(`${code} - ${name}`);
+    setShowLanguages(false);
+    // Future language switching implementation would go here
   };
 
   return (
@@ -41,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
             <img 
-              src={isDarkMode ? "/metaverselogo1 copy.svg" : "/metaverseailogo.svg"}
+              src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"}
               alt="MetaverseAI Logo" 
               className="h-10 mr-2 object-contain"
             />
@@ -71,6 +86,33 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
             <button className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors hidden sm:block`}>
               <Search className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
+            
+            {/* Language selector */}
+            <div className="relative">
+              <button 
+                onClick={() => setShowLanguages(!showLanguages)}
+                className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100 text-gray-700'} transition-colors flex items-center`}
+                aria-label="Select Language"
+              >
+                <Globe className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+              
+              {showLanguages && (
+                <div className="absolute right-0 mt-2 py-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageSelect(lang.code, lang.name)}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                        currentLanguage === `${lang.code} - ${lang.name}` ? 'bg-blue-600 text-white' : 'text-gray-800 dark:text-white'
+                      }`}
+                    >
+                      {lang.code} - {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </button>
 
             <button 
               onClick={toggleTheme}
@@ -86,8 +128,12 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs">9</span>
               </button>
             </div>
-
-            <AvatarMenu onSignOut={handleSignOut} />
+            
+            {/* Pass current language state to AvatarMenu */}
+            <AvatarMenu 
+              onSignOut={handleSignOut} 
+              currentLanguage={currentLanguage} 
+            />
           </div>
         </div>
       </div>
