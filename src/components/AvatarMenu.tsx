@@ -113,16 +113,16 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
           {/* Menu items */}
           <div className="py-2">
-            <NavLink 
+            <Link 
               to="/profile" 
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <User className="w-5 h-5 mr-3 text-gray-500" />
               <span>My Profile</span>
-            </NavLink>
+            </Link>
 
-            <NavLink 
+            <Link 
               to="/app/dashboard" 
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
@@ -138,44 +138,18 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
                   </div>
                 </div>
               </div>
-            </NavLink>
+            </Link>
 
-            <NavLink 
-              to="/app/portfolio" 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <div className="flex justify-between items-center w-full">
-                <div className="flex items-center">
-                  <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
-                  <span>Portfolio</span>
-                </div>
-              </div>
-            </NavLink>
-
-            <NavLink 
-              to="/app/transactions" 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <div className="flex justify-between items-center w-full">
-                <div className="flex items-center">
-                  <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
-                  <span>Transactions</span>
-                </div>
-              </div>
-            </NavLink>
-
-            <NavLink 
+            <Link 
               to="/app/earning" 
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
               <span>Earning</span>
-            </NavLink>
+            </Link>
 
-            <NavLink 
+            <Link 
               to="/app/subscription"
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
@@ -183,33 +157,15 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
                   <Gift className="w-5 h-5 mr-3 text-gray-500" />
-                  <span>Subscription</span>
+                  <span>My Subscription</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-green-500 text-xs mr-2">Upgrade</span>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </div>
               </div>
-            </NavLink>
+            </Link>
             
-            <NavLink 
-              to="/app/news"
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <div className="flex justify-between items-center w-full">
-                <div className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 mr-3 text-gray-500">
-                    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
-                    <path d="M18 14h-8"></path>
-                    <path d="M15 18h-5"></path>
-                    <path d="M10 6h8v4h-8V6Z"></path>
-                  </svg>
-                  <span>News</span>
-                </div>
-              </div>
-            </NavLink>
-
             {/* Language dropdown */}
             <div className="relative">
               <button 
@@ -232,14 +188,14 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               </button>
             </div>
 
-            <NavLink 
+            <Link 
               to="/app/settings"
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <Settings className="w-5 h-5 mr-3 text-gray-500" />
               <span>Account Setting</span>
-            </NavLink>
+            </Link>
 
             <button 
               className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors w-full text-red-600"
