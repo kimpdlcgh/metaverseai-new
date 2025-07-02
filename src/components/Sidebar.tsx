@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
       {/* Mobile sidebar header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 sm:hidden">
         <div className="flex items-center">
-          <img src="/metaverse-fav.svg" alt="MetaverseAI Logo" className="h-8 mr-2" />
+          <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="h-8 mr-2 object-contain" />
         </div>
         <button className="p-2 hover:bg-gray-100 rounded-lg">
           <X className="w-5 h-5" />

@@ -81,7 +81,7 @@ export default function Signup() {
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 sm:p-10">
           <div className="text-center mb-8">
             <div className="w-32 h-32 mx-auto mb-6">
-              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
+              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Create Account</h1>
             <p className="text-gray-300 text-lg">Join thousands of successful traders</p>

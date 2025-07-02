@@ -1,5 +1,5 @@
 import React, { useState, useEffect, cloneElement } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   TrendingUp, 
   Menu, 
@@ -14,16 +14,20 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const { user } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [pageTitle, setPageTitle] = useState('Dashboard');
 
   useEffect(() => {
+    // Use location instead of window.location for React Router integration
+    const currentPath = location.pathname;
+    
     if (!user) {
       navigate('/login');
     }
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);

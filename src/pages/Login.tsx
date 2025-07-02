@@ -55,7 +55,7 @@ export const Login: React.FC = () => {
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
-              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
+              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-3xl font-bold text-slate-900 mb-3 font-lexend">Welcome Back</h1>
             <p className="text-slate-600">Sign in to your investment account</p>
