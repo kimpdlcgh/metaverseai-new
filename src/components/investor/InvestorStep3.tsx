@@ -104,6 +104,11 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
 
     try {
       await onSubmit(formData);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -360,7 +365,5 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
         <button type="submit" className="sr-only">Submit</button>
       </form>
     </div>
-  );
-};
   );
 };
