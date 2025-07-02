@@ -8,7 +8,8 @@ import {
   Clock, 
   Camera,
   DollarSign,
-  LifeBuoy
+  LifeBuoy,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -93,6 +94,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
                 </button>
               </div>
             </div>
+          </div>
           </div>
         </header>
       </div>
