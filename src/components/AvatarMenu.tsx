@@ -69,10 +69,6 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut, currentLanguage }) =
         aria-haspopup="menu"
         aria-expanded={isOpen ? 'true' : 'false'}
       >
-        <div className="text-xs sm:text-sm text-right hidden md:block mr-2">
-          <div className="font-medium truncate max-w-32">warren11052@g...</div>
-          <div className="text-gray-500 font-medium">$1,100.00</div>
-        </div>
         <img 
           src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2&t=1" 
           alt="Profile" 
@@ -92,7 +88,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut, currentLanguage }) =
             <div className="flex items-center">
               <div className="mr-3">
                 <img 
-                  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2&t=1"
+                  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                   alt="Profile" 
                   className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                 />
@@ -119,7 +115,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut, currentLanguage }) =
             </Link>
 
             <Link 
-              to="/app/dashboard" 
+              to="/dashboard" 
               className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
