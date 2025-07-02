@@ -78,13 +78,13 @@ export default function Signup() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8">
-          <div className="text-center mb-6">
-            <div className="w-24 h-24 mx-auto mb-4">
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 sm:p-10">
+          <div className="text-center mb-8">
+            <div className="w-32 h-32 mx-auto mb-6">
               <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2 font-lexend">Create Account</h1>
-            <p className="text-gray-300">Join thousands of successful traders</p>
+            <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Create Account</h1>
+            <p className="text-gray-300 text-lg">Join thousands of successful traders</p>
           </div>
 
           {error && (
@@ -108,7 +108,7 @@ export default function Signup() {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                  className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-400 focus:ring-blue-400/20"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -127,7 +127,7 @@ export default function Signup() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                  className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-400 focus:ring-blue-400/20"
                   placeholder="Enter your email"
                 />
               </div>
@@ -146,7 +146,7 @@ export default function Signup() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                  className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-400 focus:ring-blue-400/20"
                   placeholder="Create a password"
                 />
                 <button
@@ -172,7 +172,7 @@ export default function Signup() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                  className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-blue-400 focus:ring-blue-400/20"
                   placeholder="Confirm your password"
                 />
                 <button
@@ -188,7 +188,7 @@ export default function Signup() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
             >
               {loading ? 'Creating Account...' : 'Create Account'}
             </Button>
@@ -197,9 +197,9 @@ export default function Signup() {
           <div className="mt-8 text-center">
             <p className="text-gray-300">
               Already have an account?{' '}
-              <Link 
-                to="/login" 
-                className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+              <Link
+                to="/login"
+                className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
               >
                 Sign in
               </Link>

@@ -33,8 +33,8 @@ export const SignupSuccess: React.FC = () => {
           </div>
 
           {/* Logo */}
-          <div className="mb-6 sm:mb-8 text-center">
-            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="h-16 mx-auto" />
+          <div className="mb-8 sm:mb-10 text-center">
+            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="h-28 mx-auto" />
           </div>
 
          {/* Choice Cards */}
@@ -188,7 +188,7 @@ export const SignupSuccess: React.FC = () => {
 
         {/* Bottom Right Logo */}
         <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6">
-          <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-12 h-12" />
+          <img src="/metaverse-fav.svg" alt="MetaverseAI Favicon" className="w-12 h-12" />
         </div>
       </div>
     </div>

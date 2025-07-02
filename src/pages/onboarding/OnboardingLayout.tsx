@@ -22,10 +22,10 @@ export const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
       
       <div className="relative max-w-2xl mx-auto">
         <div className="text-center mb-8 pt-4">
-          <div className="inline-flex items-center justify-center w-24 h-24 mb-4">
+          <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
             <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2 font-lexend">Complete Your Profile</h1>
+          <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Complete Your Profile</h1>
           <p className="text-slate-300">Help us personalize your investment experience</p>
         </div>
 
