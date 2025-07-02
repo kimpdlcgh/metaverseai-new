@@ -139,7 +139,7 @@ export class InvestorService {
         .from('investors')
         .select('investor_id')
         .eq('user_id', userId)
-        .maybeSingle();
+        .single();
 
       if (investorError) {
         console.error('Error fetching investor:', investorError);
@@ -216,7 +216,7 @@ export class InvestorService {
         .from('investors')
         .select('investor_id')
         .eq('user_id', userId)
-        .maybeSingle();
+        .single();
 
       if (investorError) {
         console.error('Error fetching investor:', investorError);
