@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { InvestorStep1 } from './InvestorStep1';
 import { InvestorStep2 } from './InvestorStep2';
@@ -107,11 +106,11 @@ export const InvestorOnboardingFlow: React.FC = () => {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative max-w-4xl mx-auto">
-        <div className="text-center mb-8 pt-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-full mb-4">
-            <TrendingUp className="w-8 h-8 text-white" />
+        <div className="text-center mb-8 pt-4">
+          <div className="inline-flex items-center justify-center w-24 h-24 mb-4">
+            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Investor Profile Setup</h1>
+          <h1 className="text-3xl font-bold text-white mb-2 font-lexend">Investor Profile Setup</h1>
           <p className="text-slate-300">Complete your investor profile to get personalized investment recommendations</p>
         </div>
 

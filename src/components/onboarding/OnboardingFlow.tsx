@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { OnboardingStep1 } from './OnboardingStep1';
 import { OnboardingStep2 } from './OnboardingStep2';
@@ -91,11 +90,11 @@ export const OnboardingFlow: React.FC = () => {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative max-w-2xl mx-auto">
-        <div className="text-center mb-8 pt-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-full mb-4">
-            <TrendingUp className="w-8 h-8 text-white" />
+        <div className="text-center mb-8 pt-4">
+          <div className="inline-flex items-center justify-center w-24 h-24 mb-4">
+            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Complete Your Profile</h1>
+          <h1 className="text-3xl font-bold text-white mb-2 font-lexend">Complete Your Profile</h1>
           <p className="text-slate-300">Help us personalize your investment experience</p>
         </div>
 

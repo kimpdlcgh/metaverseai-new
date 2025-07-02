@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { TrendingUp, Wallet, BarChart3, ArrowRight, CheckCircle } from 'lucide-react';
+import { Wallet, BarChart3, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
 export const SignupSuccess: React.FC = () => {
@@ -20,7 +20,7 @@ export const SignupSuccess: React.FC = () => {
       <div className="w-full lg:flex-1 flex flex-col justify-center py-8 px-6 sm:py-12 sm:px-8 md:py-16 md:px-12 lg:px-16">
         <div className="w-full max-w-md mx-auto lg:mx-0">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            Congratulations
+            <span className="font-lexend">Congratulations</span>
           </h1>
           
           <div className="flex items-center mb-6 sm:mb-8">
@@ -32,7 +32,12 @@ export const SignupSuccess: React.FC = () => {
             </p>
           </div>
 
-          {/* Choice Cards */}
+          {/* Logo */}
+          <div className="mb-6 sm:mb-8 text-center">
+            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="h-16 mx-auto" />
+          </div>
+
+         {/* Choice Cards */}
           <div className="flex flex-col gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div 
               onClick={handleInvestmentClick}
@@ -183,9 +188,7 @@ export const SignupSuccess: React.FC = () => {
 
         {/* Bottom Right Logo */}
         <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-          </div>
+          <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-12 h-12" />
         </div>
       </div>
     </div>

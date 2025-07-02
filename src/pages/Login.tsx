@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, TrendingUp } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -54,10 +54,10 @@ export const Login: React.FC = () => {
       <div className="relative w-full max-w-md">
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-full mb-4">
-              <TrendingUp className="w-8 h-8 text-white" />
+            <div className="inline-flex items-center justify-center w-24 h-24 mb-4">
+              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full" />
             </div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome Back</h1>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2 font-lexend">Welcome Back</h1>
             <p className="text-slate-600">Sign in to your investment account</p>
           </div>
 
