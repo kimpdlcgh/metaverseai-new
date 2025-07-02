@@ -98,12 +98,12 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
                 <img 
                   src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
                   alt="Profile" 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-white"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                 />
               </div>
               <div>
-                <p className="font-medium">AdminUIUX</p>
-                <p className="flex items-center text-sm">
+                <p className="font-medium font-lexend">AdminUIUX</p>
+                <p className="flex items-center text-sm font-opensans">
                   <span className="mr-1">$1100.00</span>
                   <span className="text-xs opacity-75">Balance</span>
                 </p>
@@ -119,7 +119,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               onClick={() => setIsOpen(false)}
             >
               <User className="w-5 h-5 mr-3 text-gray-500" />
-              <span>My Profile</span>
+              <span className="font-lexend">My Profile</span>
             </Link>
 
             <Link 
@@ -130,7 +130,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
                   <Layout className="w-5 h-5 mr-3 text-gray-500" />
-                  <span>Dashboard</span>
+                  <span className="font-lexend">Dashboard</span>
                 </div>
                 <div className="flex">
                   <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs">
@@ -146,7 +146,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               onClick={() => setIsOpen(false)}
             >
               <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
-              <span>Earning</span>
+              <span className="font-lexend">Earning</span>
             </Link>
 
             <Link 
@@ -157,7 +157,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
                   <Gift className="w-5 h-5 mr-3 text-gray-500" />
-                  <span>My Subscription</span>
+                  <span className="font-lexend">My Subscription</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-green-500 text-xs mr-2">Upgrade</span>
@@ -178,7 +178,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
                 <div className="flex justify-between items-center w-full">
                   <div className="flex items-center">
                     <span className="w-5 h-5 mr-3 flex items-center justify-center text-gray-500">🌐</span>
-                    <span>Language</span>
+                    <span className="font-lexend">Language</span>
                   </div>
                   <div className="flex items-center">
                     <span className="text-gray-500 text-xs mr-2">{currentLanguage}</span>
@@ -194,7 +194,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               onClick={() => setIsOpen(false)}
             >
               <Settings className="w-5 h-5 mr-3 text-gray-500" />
-              <span>Account Setting</span>
+              <span className="font-lexend">Account Setting</span>
             </Link>
 
             <button 
@@ -202,7 +202,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
               onClick={handleSignOut}
             >
               <Power className="w-5 h-5 mr-3" />
-              <span>Logout</span>
+              <span className="font-lexend">Logout</span>
             </button>
           </div>
         </div>

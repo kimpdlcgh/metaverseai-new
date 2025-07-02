@@ -10,7 +10,8 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
   const { user } = useAuth();
-
+  const navigate = useNavigate();
+  
   // Sample data for the dashboard
   const portfolioData = {
     totalProfit: 13.20,
@@ -110,13 +111,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
   return (
     <div>
-      <div className="w-full max-w-none p-4 sm:p-6 space-y-6 bg-slate-100 min-h-screen">
+      <div className="w-full max-w-none p-4 sm:p-6 space-y-6 bg-slate-100 min-h-screen font-opensans">
             {/* Welcome & Stats Section */}
             <div className="w-full mb-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
                 <div className="lg:col-span-3">
-                  <h3 className="text-base text-gray-500 mb-0">Good Morning,</h3>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">Investor</h1>
+                  <h3 className="text-base text-gray-500 mb-0 font-opensans">Good Morning,</h3>
+                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 font-lexend">Investor</h1>
                 </div>
                 
                 {/* Stats Cards */}
@@ -304,9 +305,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Investment Categories and Wallet */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
               {/* Investment Categories */}
-              <div className="w-full xl:col-span-2">
+              <div className="w-full lg:col-span-8">
                 <div className="bg-white rounded-2xl shadow-sm w-full transition-all duration-300">
                   <div className="grid grid-cols-1 lg:grid-cols-2">
                     {/* Doughnut Chart */}
@@ -322,7 +323,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                         </div>
                       </div>
                       <p className="text-xs sm:text-sm text-gray-500">
-                        You have invested in different types of categories shown as above and summary of each category.
+                        You have invested in different types of categories shown above and summary of each category.
                       </p>
                     </div>
 
@@ -352,7 +353,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
               </div>
 
               {/* Wallet */}
-              <div className="w-full xl:col-span-1">
+              <div className="w-full lg:col-span-4">
                 <div className="bg-white rounded-2xl shadow-sm h-full w-full transition-all duration-300">
                   <div className="p-4 sm:p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -376,7 +377,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
                     <h4 className="text-2xl font-medium mb-2">${portfolioData.walletBalance.toLocaleString()}</h4>
                     <p className="text-sm text-gray-500 mb-4">
-                      Total net revenue is $756.83 
+                      Total net revenue is $ 756.83 
                       <span className="text-green-600 ml-1">
                         <ArrowUp className="w-3 h-3 inline mr-1" />
                         11.5%
@@ -393,7 +394,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                     </div>
 
                     <div className="bg-blue-50 rounded-lg p-4 w-full">
-                      <p className="text-xs sm:text-sm text-gray-500 mb-2">
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2">
                         Top performing investment is <strong className="text-blue-600">Share Holdings</strong>
                       </p>
                       <h4 className="font-medium text-base">
@@ -477,7 +478,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
               </div>
 
               {/* G-SEC Bid Card */}
-              <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-200 w-full">
+              <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-blue-200 w-full">
                 <div className="flex items-center">
                   <div className="w-20 h-20 bg-blue-100 rounded-lg mr-4 flex items-center justify-center">
                     <DollarSign className="w-10 h-10 text-blue-600" />
@@ -627,10 +628,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                           <div className="flex items-center space-x-2">
                             <Button size="sm" variant="outline" className="text-green-600 border-green-600 text-xs px-2 py-1 touch-manipulation">
                               Buy
-                            </Button>
-                            <Button size="sm" variant="outline" className="text-red-600 border-red-600 text-xs px-2 py-1 touch-manipulation">
-                              Sell
-                            </Button>
+                             </Button>
+                             <Button size="sm" variant="outline" className="text-red-600 border-red-600 text-xs px-2 py-1 touch-manipulation">
+                               Sell
+                             </Button>
                             <button className="p-1 hover:bg-gray-100 rounded touch-manipulation">
                               <MoreHorizontal className="w-4 h-4" />
                             </button>

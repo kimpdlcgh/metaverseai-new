@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   icon: Icon,
   loading = false,
   children,
-  className = '',
+  className = 'font-lexend',
   disabled,
   ...props
 }) => {

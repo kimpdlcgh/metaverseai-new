@@ -64,10 +64,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
             <img 
               src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
               alt="Profile" 
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 object-cover"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 object-cover border-2 border-gray-100"
             />
-            <h5 className="font-medium">{user?.email?.split('@')[0] || 'User'}</h5>
-            <p className="text-sm text-gray-500">{user?.email || 'Investment Platform'}</p>
+            <h5 className="font-medium font-lexend">{user?.email?.split('@')[0] || 'User'}</h5>
+            <p className="text-sm text-gray-500 font-opensans">{user?.email || 'Investment Platform'}</p>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
                   isActive
                     ? 'bg-blue-600 text-white'
                     : `${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} text-inherit`
-                } transition-colors touch-manipulation`
+                } transition-colors touch-manipulation font-lexend`
               }
               end={item.path === "/dashboard"}
             >
@@ -121,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, isDarkMode }) => {
                   isActive
                     ? 'bg-blue-600 text-white'
                     : `${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} text-inherit`
-                } transition-colors touch-manipulation`
+                } transition-colors touch-manipulation font-lexend`
               }
               end={item.path === "/profile"}
             >

@@ -55,26 +55,26 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
             </svg>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold">InvestmentUX</h1>
+              <h1 className="text-lg sm:text-xl font-bold font-lexend">InvestmentUX</h1>
               <p className="text-xs text-gray-500 hidden sm:block">AdminUIUX HTML template</p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex space-x-6">
-            <Link to="/dashboard" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+            <Link to="/dashboard" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
               Dashboard
             </Link>
-            <Link to="/app/portfolio" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+            <Link to="/app/portfolio" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
               Portfolio
             </Link>
-            <Link to="/app/transactions" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+            <Link to="/app/transactions" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
               Transaction
             </Link>
-            <Link to="/app/earning" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+            <Link to="/app/earning" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
               Earning
             </Link>
-            <Link to="/app/news" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+            <Link to="/app/news" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
               News
             </Link>
           </nav>
