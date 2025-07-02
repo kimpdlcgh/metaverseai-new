@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Search, Filter, Clock, ExternalLink, Bookmark, Share2, ThumbsUp } from 'lucide-react';
+import PageHeader from '../components/ui/PageHeader';
 
 interface NewsProps {
   isDarkMode?: boolean;
@@ -104,32 +105,25 @@ const News: React.FC<NewsProps> = ({ isDarkMode = false }) => {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="container-fluid mt-4">
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="w-full sm:flex-1">
-            <nav aria-label="breadcrumb" className="mb-2">
-              <ol className="breadcrumb mb-0 flex items-center text-sm text-gray-500">
-                <li className="breadcrumb-item"><a href="/dashboard" className="hover:text-blue-600">Home</a></li>
-                <li className="mx-2">/</li>
-                <li className="breadcrumb-item active text-gray-700 font-medium" aria-current="page">News</li>
-              </ol>
-            </nav>
-            <h5 className="text-xl font-bold">Financial News</h5>
-          </div>
-          <div className="w-full sm:w-auto mt-3 sm:mt-0">
-            <div className="inline-flex items-center bg-white rounded-lg shadow-sm border border-gray-200">
-              <input 
-                type="text" 
-                className="px-3 py-2 border-none focus:outline-none rounded-l-lg w-40" 
-                value={dateRange}
-                onChange={(e) => setDateRange(e.target.value)}
-              />
-              <button className="p-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors">
-                <Calendar className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+      <PageHeader 
+        title="Financial News"
+        breadcrumbItems={[
+          { label: 'Home', href: '/dashboard' },
+          { label: 'News' }
+        ]}
+      />
+
+      <div className="container-fluid mt-6 flex justify-end">
+        <div className="inline-flex items-center bg-white rounded-lg shadow-sm border border-gray-200">
+          <input 
+            type="text" 
+            className="px-3 py-2 border-none focus:outline-none rounded-l-lg w-40" 
+            value={dateRange}
+            onChange={(e) => setDateRange(e.target.value)}
+          />
+          <button className="p-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors">
+            <Calendar className="w-5 h-5" />
+          </button>
         </div>
       </div>
 

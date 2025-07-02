@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
-  icon: Icon,
+  icon: Icon = undefined,
   loading = false,
   children,
   className = 'font-lexend',
@@ -20,11 +20,11 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-  
+
   const variants = {
-    primary: 'bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500 shadow-lg hover:shadow-xl',
-    secondary: 'bg-slate-600 hover:bg-slate-700 text-white focus:ring-slate-500 shadow-lg hover:shadow-xl',
-    outline: 'border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white focus:ring-emerald-500',
+    primary: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 shadow-md hover:shadow-lg',
+    secondary: 'bg-slate-600 hover:bg-slate-700 text-white focus:ring-slate-500 shadow-md hover:shadow-lg',
+    outline: 'border border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
     ghost: 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:ring-slate-500'
   };
 

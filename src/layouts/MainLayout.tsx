@@ -3,11 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
   Menu, 
-  X, 
-  Search, 
-  Sun, 
-  Moon, 
-  Bell
 } from 'lucide-react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
@@ -22,6 +17,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [pageTitle, setPageTitle] = useState('Dashboard');
 
   useEffect(() => {
     if (!user) {
@@ -49,13 +45,26 @@ export default function MainLayout({ children }: MainLayoutProps) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    // Use layout effect to get current page title from the route
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('dashboard')) setPageTitle('Dashboard');
+    else if (currentPath.includes('portfolio')) setPageTitle('Portfolio');
+    else if (currentPath.includes('transactions')) setPageTitle('Transactions');
+    else if (currentPath.includes('wallet')) setPageTitle('Wallet');
+    else if (currentPath.includes('goals')) setPageTitle('My Goals');
+    else if (currentPath.includes('subscription')) setPageTitle('Subscription');
+    else if (currentPath.includes('earning')) setPageTitle('Earning');
+    else if (currentPath.includes('news')) setPageTitle('News');
+    else if (currentPath.includes('settings')) setPageTitle('Settings');
+    else if (currentPath.includes('profile')) setPageTitle('Profile');
+
+   document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isSidebarOpen]);
+  }, [isSidebarOpen, navigate]);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-200`}>
-      <Header toggleSidebar={toggleSidebar} />
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-slate-50 text-gray-900'} transition-colors duration-200 font-opensans`}>
+      <Header toggleSidebar={toggleSidebar} pageTitle={pageTitle} />
 
       <div className="flex">
         {/* Mobile Sidebar Overlay */}

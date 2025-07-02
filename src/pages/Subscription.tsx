@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Check, AlertCircle, Shield, BarChart3, DollarSign } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import PageHeader from '../components/ui/PageHeader';
 
 interface SubscriptionProps {
   isDarkMode?: boolean;
@@ -140,46 +141,43 @@ const Subscription: React.FC<SubscriptionProps> = ({ isDarkMode = false }) => {
 
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="container-fluid mt-4">
-        <div className="row gx-3 align-items-center">
-          <div className="col-12 col-sm">
-            <nav aria-label="breadcrumb" className="mb-2">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                <li className="breadcrumb-item active" aria-current="page">Subscription Plans</li>
-              </ol>
-            </nav>
-            <h5>All Subscriptions</h5>
-          </div>
-        </div>
-      </div>
+      <PageHeader 
+        title="Subscription Plans"
+        breadcrumbItems={[
+          { label: 'Home', href: '/dashboard' },
+          { label: 'Subscription Plans' }
+        ]}
+      >
+        {/* Optionally add a badge or additional information here */}
+      </PageHeader>
 
       {/* Content */}
       <div className="container mt-4">
         {/* Billing Cycle Toggle */}
         <div className="flex justify-center mb-8">
           <div className="bg-gray-100 p-1 rounded-lg inline-flex">
-            <button
-              className={`px-4 py-2 rounded-lg ${
+            <Button
+              variant={billingCycle === 'monthly' ? 'primary' : 'ghost'}
+              className={`${
                 billingCycle === 'monthly' 
-                  ? 'bg-white shadow-sm' 
+                  ? 'bg-white shadow-sm font-medium' 
                   : 'text-gray-500'
               }`}
               onClick={() => setBillingCycle('monthly')}
             >
               Monthly
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg ${
+            </Button>
+            <Button
+              variant={billingCycle === 'annual' ? 'primary' : 'ghost'}
+              className={`${
                 billingCycle === 'annual' 
-                  ? 'bg-white shadow-sm' 
+                  ? 'bg-white shadow-sm font-medium' 
                   : 'text-gray-500'
               }`}
               onClick={() => setBillingCycle('annual')}
             >
               Annual <span className="text-green-500 text-xs">Save 20%</span>
-            </button>
+            </Button>
           </div>
         </div>
 

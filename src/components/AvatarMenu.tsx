@@ -66,7 +66,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
       <div 
         ref={avatarRef}
         className="flex items-center cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(!isOpen)} 
         onKeyDown={(e) => e.key === 'Enter' && setIsOpen(!isOpen)}
         tabIndex={0}
         role="button"
@@ -78,9 +78,9 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
           <div className="text-gray-500">$1,100.00</div>
         </div>
         <img 
-          src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+          src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2&t=1" 
           alt="Profile" 
-          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white shadow-sm"
         />
       </div>
 
@@ -88,21 +88,21 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
       {isOpen && (
         <div 
           ref={menuRef}
-          className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg z-50 overflow-hidden"
+          className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl z-50 overflow-hidden"
           role="menu"
         >
           {/* User info header */}
-          <div className="bg-blue-600 text-white p-4 rounded-t-lg">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-xl">
             <div className="flex items-center">
               <div className="mr-3">
                 <img 
-                  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+                  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2&t=1" 
                   alt="Profile" 
                   className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                 />
               </div>
               <div>
-                <p className="font-medium font-lexend">AdminUIUX</p>
+                <p className="font-semibold text-base font-lexend">AdminUIUX</p>
                 <p className="flex items-center text-sm font-opensans">
                   <span className="mr-1">$1100.00</span>
                   <span className="text-xs opacity-75">Balance</span>
@@ -115,7 +115,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
           <div className="py-2">
             <Link 
               to="/profile" 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <User className="w-5 h-5 mr-3 text-gray-500" />
@@ -124,7 +124,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/dashboard" 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <div className="flex justify-between items-center w-full">
@@ -142,7 +142,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/earning" 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
@@ -151,7 +151,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/subscription"
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <div className="flex justify-between items-center w-full">
@@ -169,7 +169,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
             {/* Language dropdown */}
             <div className="relative">
               <button 
-                className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors w-full"
+                className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors w-full"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsLanguageOpen(!isLanguageOpen);
@@ -190,7 +190,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/settings"
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <Settings className="w-5 h-5 mr-3 text-gray-500" />
@@ -198,7 +198,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
             </Link>
 
             <button 
-              className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors w-full text-red-600"
+              className="flex items-center px-4 py-3 hover:bg-red-50 transition-colors w-full text-red-600 mt-2 border-t border-gray-100"
               onClick={handleSignOut}
             >
               <Power className="w-5 h-5 mr-3" />
