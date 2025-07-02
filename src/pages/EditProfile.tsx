@@ -242,6 +242,8 @@ const EditProfile: React.FC = () => {
       if (profileError) throw profileError;
 
       await NotificationService.createNotification(user.id, {
+      await NotificationService.createNotification({
+        user_id: user.id,
         title: 'Profile Updated',
         message: 'Your profile has been successfully updated.',
         type: 'success'
