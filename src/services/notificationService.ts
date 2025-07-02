@@ -27,14 +27,14 @@ export class NotificationService {
       console.log(`Creating notification for user ${userId}:`, { title, type });
       
       const { data, error } = await supabase.rpc(
-        'create_notification',
+        'create_user_notification',
         {
-          p_action_url: actionUrl || null,
-          p_expires_at: expiresAt ? expiresAt.toISOString() : null,
-          p_message: message,
+          p_user_id: userId,
           p_title: title,
+          p_message: message,
           p_type: type,
-          p_user_id: userId
+          p_action_url: actionUrl || null,
+          p_expires_at: expiresAt ? expiresAt.toISOString() : null
         }
       );
       
@@ -57,7 +57,7 @@ export class NotificationService {
   static async markAsRead(notificationId: string, userId: string): Promise<boolean> {
     try {
       const { data, error } = await supabase.rpc(
-        'mark_notification_read',
+        'mark_user_notification_read',
         {
           p_notification_id: notificationId,
           p_user_id: userId
@@ -78,7 +78,7 @@ export class NotificationService {
   static async markAllAsRead(userId: string): Promise<number> {
     try {
       const { data, error } = await supabase.rpc(
-        'mark_all_notifications_read',
+        'mark_all_user_notifications_read',
         {
           p_user_id: userId
         }
