@@ -240,9 +240,8 @@ const EditProfile: React.FC = () => {
         }, { onConflict: 'user_id' });
 
       if (profileError) throw profileError;
-
       await NotificationService.createNotification({
-        user_id: user.id,
+        userId: user.id,
         title: 'Profile Updated',
         message: 'Your profile has been successfully updated.',
         type: 'success'
