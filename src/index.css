@@ -372,5 +372,5 @@ canvas {
 
 /* Blue button in dark mode */
 .dark .bg-blue-600 {
-  @apply bg-blue-600 text-white;
+  @apply text-white;
 }
