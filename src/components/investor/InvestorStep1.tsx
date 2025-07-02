@@ -74,7 +74,8 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
     if (value && !value.startsWith('+')) {
       return `+${value.replace(/\D/g, '')}`;
     }
-    return value;
+    // Navigate to dashboard when skip is clicked
+    navigate('/dashboard');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,7 +97,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-h-[70vh] overflow-y-auto px-2">
       <div className="text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Personal Information</h2>
         <p className="text-slate-600">Tell us about yourself to get started</p>
@@ -200,7 +201,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
         </div>
 
         <div className="flex justify-between pt-6">
-          <Button variant="ghost" type="button" onClick={onSkip}>
+          <Button variant="ghost" type="button" onClick={onSkip} className="z-10">
             Skip
           </Button>
           <Button type="submit" loading={loading}>

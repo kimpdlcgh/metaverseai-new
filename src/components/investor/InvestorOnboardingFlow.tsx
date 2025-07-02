@@ -104,7 +104,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
-      
+
       <div className="relative max-w-4xl mx-auto">
         <div className="text-center mb-8 pt-4">
           <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
@@ -114,7 +114,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
           <p className="text-slate-300">Complete your investor profile to get personalized investment recommendations</p>
         </div>
 
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 overflow-hidden">
           <ProgressBar 
             currentStep={currentStep} 
             totalSteps={3} 
