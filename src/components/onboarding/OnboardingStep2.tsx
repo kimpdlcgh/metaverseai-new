@@ -55,23 +55,18 @@ export const OnboardingStep2: React.FC<OnboardingStep2Props> = ({
   const validateForm = () => {
     const validationErrors = ValidationUtils.validateStep2Data(formData);
     const errorMap: Record<string, string> = {};
-    
     validationErrors.forEach(error => {
       errorMap[error.field] = error.message;
     });
-
     setErrors(errorMap);
     return validationErrors.length === 0;
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
-
-    // Auto-save progress
     setSaveStatus('idle');
     setTimeout(() => {
       saveProgress({ ...formData, [field]: value });
@@ -80,7 +75,6 @@ export const OnboardingStep2: React.FC<OnboardingStep2Props> = ({
 
   const saveProgress = async (data: any) => {
     if (!user) return;
-
     try {
       setSaveStatus('saving');
       onSaveProgress(data);
@@ -93,11 +87,8 @@ export const OnboardingStep2: React.FC<OnboardingStep2Props> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validateForm() || !user) return;
-
     setLoading(true);
-
     try {
       await OnboardingService.saveStep2Data(user.id, formData);
       onNext();
