@@ -203,3 +203,7 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onNext, onPrevious
         
         {/* Navigation controls moved to fixed footer in parent component */}
         <Button type="submit" loading={loading} className="hidden">Continue</Button>
+      </form>
+    </div>
+  );
+};
