@@ -1,17 +1,17 @@
 {
-  "name": "Investment Platform",
-  "short_name": "InvestPlatform",
-  "description": "Secure Investment Platform",
+  "name": "MetaverseAI Platform",
+  "short_name": "MetaverseAI",
+  "description": "Secure MetaverseAI Investment Platform",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#ffffff", 
+  "theme_color": "#0BC9CD",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/vite.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
+      "src": "/metaverseai.logo.png",
+      "sizes": "192x192", 
+      "type": "image/png"
     }
   ]
 }

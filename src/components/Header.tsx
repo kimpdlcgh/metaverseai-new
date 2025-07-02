@@ -42,22 +42,11 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
-            <svg
-              viewBox="0 0 24 24"
-              width="28"
-              height="28"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-8 h-8 text-blue-600 mr-3"
-            >
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-            <div>
-              <h1 className="text-xl font-bold font-lexend">InvestmentUX</h1>
-            </div>
+            <img
+              src="/metaverseai.logo.png"
+              alt="MetaverseAI Logo"
+              className="h-10 mr-2"
+            />
           </Link>
 
           {/* Desktop Navigation */}
