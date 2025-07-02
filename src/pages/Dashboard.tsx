@@ -600,6 +600,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                             <p className="text-xs text-gray-500">Invested: ${holding.invested}</p>
                           </div>
                         </td>
+                        <td className="p-3 sm:p-4 hidden md:table-cell">
+                          <div>
+                            <p className={`font-medium text-xs sm:text-sm ${holding.profit > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              ${holding.profit > 0 ? '+' : ''}${holding.profit}
+                            </p>
+                            <p className={`text-xs ${holding.profitPercent > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              {holding.profitPercent > 0 ? '+' : ''}{holding.profitPercent}%
+                            </p>
+                          </div>
+                        </td>
+                        <td className="p-3 sm:p-4 hidden lg:table-cell">
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
+                            holding.trend === 'Bullish' 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {holding.trend}
+                          </span>
+                        </td>
+                        <td className="p-3 sm:p-4">
+                          <span className={`font-medium text-xs sm:text-sm ${holding.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            {holding.change > 0 ? '+' : ''}{holding.change}%
+                          </span>
+                        </td>
+                        <td className="p-3 sm:p-4">
+                          <div className="flex items-center space-x-2">
+                            <Button size="sm" variant="outline" className="text-green-600 border-green-600 text-xs px-2 py-1 touch-manipulation">
                               Buy
                             </Button>
                             <Button size="sm" variant="outline" className="text-red-600 border-red-600 text-xs px-2 py-1 touch-manipulation">
