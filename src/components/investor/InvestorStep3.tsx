@@ -109,6 +109,11 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
     } finally {
       setLoading(false);
     }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
