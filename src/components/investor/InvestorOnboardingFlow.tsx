@@ -122,7 +122,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10 pointer-events-none"></div>
 
       {/* Skip button in top-right */}
-      <div className="fixed top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50">
         <button 
           onClick={handleSkip}
           aria-label="Skip onboarding"
@@ -132,16 +132,16 @@ export const InvestorOnboardingFlow: React.FC = () => {
         </button>
       </div>
 
-        <div className="text-center mb-8 pt-4">
+      <div className="relative max-w-4xl mx-auto pt-4">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
-            <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
+            <img src="/assets/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Investor Profile Setup</h1>
           <p className="text-slate-300">Complete your investor profile to get personalized investment recommendations</p>
         </div>
-
-      <div className="relative max-w-4xl mx-auto flex flex-col min-h-[calc(100vh-2rem)]">
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl flex flex-col flex-1 overflow-hidden">
+        
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl mb-20">
           <div className="p-6 sm:p-8">
             <ProgressBar 
               currentStep={currentStep} 
@@ -151,26 +151,28 @@ export const InvestorOnboardingFlow: React.FC = () => {
           </div>
           
           {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto px-6 sm:px-8 pb-32">
+          <div className="px-6 sm:px-8 pb-24 overflow-y-auto max-h-[calc(100vh-300px)]">
             {renderCurrentStep()}
           </div>
+        </div>
+      </div>
+      
+      {/* Fixed navigation footer - now fixed to viewport */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-white border-t border-gray-200 shadow-lg z-50">
+        <div className="max-w-4xl mx-auto flex justify-between">
+          <button
+            onClick={currentStep === 1 ? handleSkip : handlePrevious}
+            className="px-6 py-3 min-h-[44px] min-w-[100px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm"
+          >
+            {currentStep === 1 ? 'Skip' : 'Previous'}
+          </button>
           
-          {/* Fixed navigation footer */}
-          <div className="sticky bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-md z-40 flex justify-between">
-            <button
-              onClick={currentStep === 1 ? handleSkip : handlePrevious}
-              className="px-6 py-2 min-h-[44px] min-w-[44px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors"
-            >
-              {currentStep === 1 ? 'Skip' : 'Previous'}
-            </button>
-            
-            <button
-              onClick={currentStep === 3 ? handleComplete : handleNext}
-              className="px-6 py-2 min-h-[44px] min-w-[44px] text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:outline-none transition-colors"
-            >
-              {currentStep === 3 ? 'Complete' : 'Continue'}
-            </button>
-          </div>
+          <button
+            onClick={currentStep === 3 ? handleComplete : handleNext}
+            className="px-6 py-3 min-h-[44px] min-w-[100px] text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:outline-none transition-colors shadow-sm"
+          >
+            {currentStep === 3 ? 'Complete' : 'Continue'}
+          </button>
         </div>
       </div>
       
