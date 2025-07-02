@@ -90,6 +90,28 @@ export class InvestorValidationUtils {
   static validateStep1Data(data: any): ValidationError[] {
     const errors: ValidationError[] = [];
     
+    // Check for empty required fields first
+    if (!data.first_name || data.first_name.trim() === '') {
+      errors.push({
+        field: 'first_name',
+        message: 'First name is required'
+      });
+    }
+    
+    if (!data.last_name || data.last_name.trim() === '') {
+      errors.push({
+        field: 'last_name',
+        message: 'Last name is required'
+      });
+    }
+    
+    if (!data.phone_number || data.phone_number.trim() === '') {
+      errors.push({
+        field: 'phone_number',
+        message: 'Phone number is required'
+      });
+    }
+    
     const emailError = this.validateEmail(data.email);
     if (emailError) errors.push(emailError);
     
@@ -116,35 +138,36 @@ export class InvestorValidationUtils {
   static validateStep2Data(data: any): ValidationError[] {
     const errors: ValidationError[] = [];
     
-    if (!data.house_number || data.house_number.trim().length < 1) {
+    // Check for empty required fields
+    if (!data.house_number || data.house_number.trim() === '') {
       errors.push({ 
         field: 'house_number', 
         message: 'House/Building number is required' 
       });
     }
     
-    if (!data.street_name || data.street_name.trim().length < 1) {
+    if (!data.street_name || data.street_name.trim() === '') {
       errors.push({ 
         field: 'street_name', 
         message: 'Street name is required' 
       });
     }
     
-    if (!data.city || data.city.trim().length < 1) {
+    if (!data.city || data.city.trim() === '') {
       errors.push({ 
         field: 'city', 
         message: 'City is required' 
       });
     }
     
-    if (!data.postal_code || data.postal_code.trim().length < 1) {
+    if (!data.postal_code || data.postal_code.trim() === '') {
       errors.push({ 
         field: 'postal_code', 
         message: 'Postal code is required' 
       });
     }
     
-    if (!data.country || data.country.trim().length < 1) {
+    if (!data.country || data.country.trim() === '') {
       errors.push({ 
         field: 'country', 
         message: 'Country is required' 
@@ -156,6 +179,21 @@ export class InvestorValidationUtils {
 
   static validateStep3Data(data: any): ValidationError[] {
     const errors: ValidationError[] = [];
+    
+    // Validate investment goals and preferred sectors
+    if (!data.investment_goals || data.investment_goals.length === 0) {
+      errors.push({
+        field: 'investment_goals',
+        message: 'Please select at least one investment goal'
+      });
+    }
+    
+    if (!data.preferred_sectors || data.preferred_sectors.length === 0) {
+      errors.push({
+        field: 'preferred_sectors',
+        message: 'Please select at least one preferred sector'
+      });
+    }
     
     const validExperience = ['beginner', 'intermediate', 'advanced', 'expert'];
     if (!data.investment_experience || !validExperience.includes(data.investment_experience)) {
@@ -178,20 +216,6 @@ export class InvestorValidationUtils {
       errors.push({ 
         field: 'investment_timeline', 
         message: 'Please select a valid investment timeline' 
-      });
-    }
-    
-    if (data.investment_goals && (!Array.isArray(data.investment_goals) || data.investment_goals.length === 0)) {
-      errors.push({ 
-        field: 'investment_goals', 
-        message: 'Please select at least one investment goal' 
-      });
-    }
-    
-    if (data.preferred_sectors && (!Array.isArray(data.preferred_sectors) || data.preferred_sectors.length === 0)) {
-      errors.push({ 
-        field: 'preferred_sectors', 
-        message: 'Please select at least one preferred sector' 
       });
     }
     

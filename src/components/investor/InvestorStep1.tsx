@@ -7,7 +7,7 @@ import { InvestorValidationUtils } from '../../utils/investorValidation';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface InvestorStep1Props {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: any, isValid: boolean) => Promise<void>;
 }
 
 export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
@@ -49,11 +49,24 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
 
   const validateForm = () => {
     const validationErrors = InvestorValidationUtils.validateStep1Data(formData);
-    const errorMap: Record<string, string> = {};
+    let errorMap: Record<string, string> = {};
     
     validationErrors.forEach(error => {
       errorMap[error.field] = error.message;
     });
+    
+    // Additional validation for required fields
+    if (!formData.first_name.trim()) {
+      errorMap.first_name = 'First name is required';
+    }
+    
+    if (!formData.last_name.trim()) {
+      errorMap.last_name = 'Last name is required';
+    }
+    
+    if (!formData.phone_number.trim()) {
+      errorMap.phone_number = 'Phone number is required';
+    }
 
     setErrors(errorMap);
     return validationErrors.length === 0;
@@ -78,13 +91,18 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     
-    if (!validateForm() || !user) return;
+    const isValid = validateForm();
+    if (!user) {
+      setErrors({ general: 'User authentication required. Please log in again.' });
+      return;
+    }
 
     setLoading(true);
 
     try {
-      await onSubmit(formData);
+      await onSubmit(formData, isValid);
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
@@ -94,9 +112,9 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
 
   return (
     <div className="space-y-6 focus:outline-none" tabIndex={-1} id="step1-content">
-      <div className="text-center mb-6">
+      <div className="text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Personal Information</h2>
-        <p className="text-slate-600">Tell us about yourself to get started</p>
+        <p className="text-slate-600 mb-2">Tell us about yourself to get started</p>
       </div>
 
       {errors.general && (
@@ -108,7 +126,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form id="step1-form" onSubmit={handleSubmit} className="space-y-6" noValidate>
         <Input
           type="email"
           label="Email Address *"
@@ -117,7 +135,8 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
           onChange={(e) => handleInputChange('email', e.target.value)}
           error={errors.email}
           placeholder="Enter your email address"
-          disabled={true}
+          disabled
+          required
           helperText="This email is from your account registration"
         />
 
@@ -189,7 +208,17 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onSubmit }) => {
         </div>
         
         {/* Navigation controls moved to fixed footer in parent component */}
-        <button type="submit" className="sr-only">Submit</button>
+        
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p className="text-blue-700 text-sm">
+            <strong>Privacy Notice:</strong> Your personal information is encrypted and used only 
+            for account verification and personalized investment recommendations. We never share 
+            your personal information with third parties.
+          </p>
+        </div>
+        
+        {/* Hidden submit button that can be triggered programmatically */}
+        <button type="submit" className="hidden">Submit</button>
       </form>
     </div>
   );

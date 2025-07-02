@@ -15,8 +15,9 @@ export const InvestorOnboardingFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [formSubmitting, setFormSubmitting] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [skipModalOpen, setSkipModalOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState<{[key: string]: boolean}>({});
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+  const [activeForm, setActiveForm] = useState<HTMLFormElement | null>(null);
 
   useEffect(() => {
     loadExistingData();
@@ -46,7 +47,45 @@ export const InvestorOnboardingFlow: React.FC = () => {
     }
   };
 
-  const handleStepSubmit = async (data: any) => {
+  // Function to validate the current step before proceeding
+  const validateCurrentStep = (): boolean => {
+    // Get the form element for the current step
+    const currentForm = document.getElementById(`step${currentStep}-form`) as HTMLFormElement;
+    
+    if (!currentForm) {
+      console.error(`Form for step ${currentStep} not found`);
+      return false;
+    }
+    
+    setActiveForm(currentForm);
+    
+    // Check HTML5 validation
+    const isValid = currentForm.checkValidity();
+    
+    // If not valid, trigger form validation UI
+    if (!isValid) {
+      // Create and dispatch submit event to show validation messages
+      const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+      currentForm.dispatchEvent(submitEvent);
+      
+      // Track which form has errors
+      setFormErrors(prev => ({...prev, [currentStep]: true}));
+      
+      return false;
+    }
+    
+    // Clear error state for this step
+    setFormErrors(prev => ({...prev, [currentStep]: false}));
+    return true;
+  };
+
+  const handleStepSubmit = async (data: any, isValid: boolean) => {
+    // If validation failed at component level, don't proceed
+    if (!isValid) return;
+    
+    // Also check form-level validation
+    if (!validateCurrentStep()) return;
+    
     setFormSubmitting(true);
     
     try {
@@ -58,6 +97,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
       } else if (currentStep === 3) {
         await InvestorService.saveStep3Data(user!.id, data);
         // Don't auto-advance after step 3 - wait for explicit completion
+        await checkOnboardingStatus();
         setFormSubmitting(false);
         return;
       }
@@ -72,6 +112,17 @@ export const InvestorOnboardingFlow: React.FC = () => {
   };
 
   const handleNext = async () => {
+    if (formSubmitting) return;
+    
+    // Validate current step before proceeding
+    if (!validateCurrentStep()) return;
+    
+    // Try to submit the current form
+    if (activeForm) {
+      activeForm.requestSubmit();
+      return;
+    }
+    
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
       // Scroll to top when changing steps
@@ -88,9 +139,20 @@ export const InvestorOnboardingFlow: React.FC = () => {
   };
 
   const handleComplete = async () => {
+    if (formSubmitting) return;
+    
+    // Validate final step before completing
+    if (!validateCurrentStep()) return;
+    
+    setFormSubmitting(true);
     // Refresh onboarding status in auth context
     await checkOnboardingStatus();
-    navigate('/dashboard');
+    setFormSubmitting(false);
+    
+    // Navigate to dashboard
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 300);
   };
 
   const handleSkip = () => {
@@ -100,16 +162,13 @@ export const InvestorOnboardingFlow: React.FC = () => {
   const confirmSkip = () => {
     // Save user preference to skip onboarding
     localStorage.setItem('onboardingSkipped', 'true');
-    navigate('/dashboard');
+    
     setShowConfirmModal(false);
-  };
-
-  const closeConfirmModal = () => {
-    setShowConfirmModal(false);
-  };
-
-  const cancelSkip = () => {
-    setSkipModalOpen(false);
+    
+    // Navigate to dashboard after a short delay
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 300);
   };
 
   const renderCurrentStep = () => {
@@ -117,19 +176,19 @@ export const InvestorOnboardingFlow: React.FC = () => {
       case 1:
         return (
           <InvestorStep1
-            onSubmit={handleStepSubmit}
+            onSubmit={(data, isValid) => handleStepSubmit(data, isValid)}
           />
         );
       case 2:
         return (
           <InvestorStep2
-            onSubmit={handleStepSubmit}
+            onSubmit={(data, isValid) => handleStepSubmit(data, isValid)}
           />
         );
       case 3:
         return (
           <InvestorStep3
-            onSubmit={handleStepSubmit}
+            onSubmit={(data, isValid) => handleStepSubmit(data, isValid)}
           />
         );
       default:
@@ -153,6 +212,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
       <div className="absolute top-5 right-5 z-50">
         <button 
           onClick={handleSkip}
+          type="button"
           aria-label="Skip onboarding"
           className="bg-white text-gray-500 font-medium px-6 py-2 rounded-full hover:bg-gray-100 transition-colors shadow-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
@@ -193,18 +253,25 @@ export const InvestorOnboardingFlow: React.FC = () => {
       
       {/* Fixed navigation footer with styled buttons matching screenshot */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 z-50">
-        <div className="max-w-3xl mx-auto flex justify-end space-x-3">
+        <div className="max-w-3xl mx-auto flex justify-between md:justify-end space-x-3">
           <button
+            type="button"
+            disabled={formSubmitting}
             onClick={currentStep === 1 ? handleSkip : handlePrevious}
-            className="px-6 py-3 min-h-[44px] min-w-[100px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm"
+            className="px-6 py-3 min-h-[44px] min-w-[100px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === 1 ? 'Skip' : 'Previous'}
           </button>
           
           <button
+            type="button"
+            disabled={formSubmitting}
             onClick={currentStep === 3 ? handleComplete : handleNext}
-            className="px-6 py-3 min-h-[44px] min-w-[100px] text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:outline-none transition-colors shadow-sm"
+            className="flex items-center justify-center px-6 py-3 min-h-[44px] min-w-[100px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
+            {formSubmitting && (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-3"></div>
+            )}
             {currentStep === 3 ? 'Complete' : 'Continue'}
           </button>
         </div>
@@ -216,16 +283,18 @@ export const InvestorOnboardingFlow: React.FC = () => {
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
             <h3 className="text-lg font-bold mb-2">Skip Onboarding?</h3>
             <p className="text-gray-600 mb-6">
-              If you skip the onboarding process, you can always complete your profile later from your account settings.
+              If you skip the onboarding process, you'll have limited features until you complete your profile from settings.
             </p>
             <div className="flex gap-3 justify-end">
               <button
-                onClick={closeConfirmModal}
+                onClick={() => setShowConfirmModal(false)}
+                type="button"
                 className="px-4 py-2 min-h-[44px] min-w-[44px] border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={confirmSkip}
                 className="px-4 py-2 min-h-[44px] min-w-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >

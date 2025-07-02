@@ -18,15 +18,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
+  const [onboardingCheckInProgress, setOnboardingCheckInProgress] = useState<boolean>(false);
 
   const checkOnboardingStatus = async () => {
     if (!user) {
       setOnboardingCompleted(null);
       return;
     }
-
+    
+    setOnboardingCheckInProgress(true);
     try {
       // Check if user has completed investor onboarding
       const { data: investor, error: investorError } = await supabase
@@ -62,8 +64,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Onboarding is completed if investment profile exists
       setOnboardingCompleted(!!investmentProfile);
     } catch (error) {
-      console.error('Error checking onboarding status:', error);
+      console.error('Error checking onboarding status:', error);  
       setOnboardingCompleted(false);
+    } finally {
+      setOnboardingCheckInProgress(false);
     }
   };
 
@@ -90,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [user?.id]);
 
   // Check onboarding status when user changes
   useEffect(() => {
@@ -160,6 +164,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     session,
     loading,
+    onboardingCheckInProgress,
     onboardingCompleted,
     signUp,
     signIn,

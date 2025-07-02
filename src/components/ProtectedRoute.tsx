@@ -4,16 +4,19 @@ import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requireOnboarding?: boolean;
+  requireOnboardingComplete?: boolean;
+  redirectTo?: string;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
-  requireOnboarding = false 
+  requireOnboardingComplete = false,
+  redirectTo = '/login'
 }) => {
-  const { user, loading, onboardingCompleted } = useAuth();
+  const { user, loading, onboardingCompleted, onboardingCheckInProgress } = useAuth();
 
-  if (loading) {
+  // Loading states - both auth loading and onboarding status loading
+  if (loading || onboardingCheckInProgress) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400"></div>
@@ -22,7 +25,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   // If onboarding status is still loading, show loading spinner
@@ -40,13 +43,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // If accessing dashboard but onboarding not completed, redirect to onboarding
-  if (window.location.pathname === '/dashboard' && !onboardingCompleted) {
-    return <Navigate to="/onboarding" replace />;
-  }
-
-  // If route requires onboarding and it's not completed, redirect to onboarding
-  if (requireOnboarding && !onboardingCompleted) {
-    return <Navigate to="/onboarding" replace />;
+  if (requireOnboardingComplete && !onboardingCompleted) {
+    return <Navigate to="/onboarding" replace state={{ from: window.location.pathname }} />;
   }
 
   return <>{children}</>;

@@ -14,7 +14,7 @@ import {
 } from '../../types/investor';
 
 interface InvestorStep3Props {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: any, isValid: boolean) => Promise<void>;
 }
 
 export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
@@ -64,11 +64,20 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
 
   const validateForm = () => {
     const validationErrors = InvestorValidationUtils.validateStep3Data(formData);
-    const errorMap: Record<string, string> = {};
+    let errorMap: Record<string, string> = {};
     
     validationErrors.forEach(error => {
       errorMap[error.field] = error.message;
     });
+    
+    // Additional validation for required fields
+    if (!formData.investment_goals || formData.investment_goals.length === 0) {
+      errorMap.investment_goals = 'Please select at least one investment goal';
+    }
+    
+    if (!formData.preferred_sectors || formData.preferred_sectors.length === 0) {
+      errorMap.preferred_sectors = 'Please select at least one preferred sector';
+    }
 
     setErrors(errorMap);
     return validationErrors.length === 0;
@@ -97,13 +106,17 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm() || !user) return;
+    e.stopPropagation();
+    const isValid = validateForm();
+    if (!user) {
+      setErrors({ general: 'User authentication required. Please log in again.' });
+      return;
+    }
 
     setLoading(true);
 
     try {
-      await onSubmit(formData);
+      await onSubmit(formData, isValid);
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
@@ -113,9 +126,9 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
 
   return (
     <div className="space-y-8 focus:outline-none" tabIndex={-1} id="step3-content">
-      <div className="text-center mb-6">
+      <div className="text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Investment Profile</h2>
-        <p className="text-slate-600">Help us understand your investment preferences and goals</p>
+        <p className="text-slate-600 mb-2">Help us understand your investment preferences and goals</p>
       </div>
 
       {errors.general && (
@@ -127,7 +140,7 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form id="step3-form" onSubmit={handleSubmit} className="space-y-8" noValidate>
         {/* Investment Experience */}
         <div className="space-y-4">
           <label className="block text-sm font-medium text-slate-700">
@@ -361,8 +374,17 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onSubmit }) => {
             </label>
           </div>
         </div>
-        
-        <button type="submit" className="sr-only">Submit</button>
+
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+          <p className="text-green-700 text-sm">
+            <strong>Almost done!</strong> This information helps us provide personalized 
+            investment recommendations and ensure regulatory compliance. All data is 
+            securely encrypted and never shared with third parties.
+          </p>
+        </div>
+
+        {/* Hidden submit button that can be triggered programmatically */}
+        <button type="submit" className="hidden">Submit</button>
       </form>
     </div>
   );

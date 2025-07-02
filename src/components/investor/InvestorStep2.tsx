@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { COUNTRIES } from '../../types/investor';
 
 interface InvestorStep2Props {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: any, isValid: boolean) => Promise<void>;
 }
 
 export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
@@ -52,11 +52,32 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
 
   const validateForm = () => {
     const validationErrors = InvestorValidationUtils.validateStep2Data(formData);
-    const errorMap: Record<string, string> = {};
+    let errorMap: Record<string, string> = {};
     
     validationErrors.forEach(error => {
       errorMap[error.field] = error.message;
     });
+    
+    // Additional validation for required fields
+    if (!formData.house_number.trim()) {
+      errorMap.house_number = 'House/Building number is required';
+    }
+    
+    if (!formData.street_name.trim()) {
+      errorMap.street_name = 'Street name is required';
+    }
+    
+    if (!formData.city.trim()) {
+      errorMap.city = 'City is required';
+    }
+    
+    if (!formData.postal_code.trim()) {
+      errorMap.postal_code = 'Postal code is required';
+    }
+    
+    if (!formData.country.trim()) {
+      errorMap.country = 'Country is required';
+    }
 
     setErrors(errorMap);
     return validationErrors.length === 0;
@@ -72,23 +93,30 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     
-    if (!validateForm() || !user) return;
+    const isValid = validateForm();
+    if (!user) {
+      setErrors({ general: 'User authentication required. Please log in again.' });
+      return;
+    }
 
     setLoading(true);
 
     try {
-      await onSubmit(formData);
+      await onSubmit(formData, isValid);
     } catch (error) {
       console.error('Error submitting form:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="space-y-6 focus:outline-none" tabIndex={-1} id="step2-content">
-      <div className="text-center mb-6">
+      <div className="text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Residential Address</h2>
-        <p className="text-slate-600">We need your address for regulatory compliance</p>
+        <p className="text-slate-600 mb-2">We need your address for regulatory compliance</p>
       </div>
 
       {errors.general && (
@@ -100,7 +128,7 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form id="step2-form" onSubmit={handleSubmit} className="space-y-6" noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
@@ -196,8 +224,8 @@ export const InvestorStep2: React.FC<InvestorStep2Props> = ({ onSubmit }) => {
           </p>
         </div>
         
-        {/* Navigation controls moved to fixed footer in parent component */}
-        <button type="submit" className="sr-only">Submit</button>
+        {/* Hidden submit button that can be triggered programmatically */}
+        <button type="submit" className="hidden">Submit</button>
       </form>
     </div>
   );

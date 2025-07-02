@@ -60,16 +60,16 @@ function App() {
                 </ProtectedRoute>
               } />
 
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <Dashboard />
-                  </MainLayout>
-                </ProtectedRoute>
-              } />
+            <Route path="/dashboard" element={
+              <ProtectedRoute requireOnboardingComplete={true}>
+                <MainLayout>
+                  <Dashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
 
-              <Route path="/app/portfolio" element={
-                <ProtectedRoute>
+            <Route path="/app/portfolio" element={
+              <ProtectedRoute requireOnboardingComplete={true}>
                   <MainLayout>
                     <Portfolio />
                   </MainLayout>
