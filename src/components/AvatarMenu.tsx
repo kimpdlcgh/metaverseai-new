@@ -88,9 +88,9 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
       {/* Dropdown menu */}
       {isOpen && (
         <div 
-          ref={menuRef}
-          className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl z-50 overflow-hidden"
-          role="menu"
+          ref={menuRef} 
+          className={`absolute right-0 mt-2 w-72 ${isDarkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white'} rounded-xl shadow-xl z-50 overflow-hidden`}
+          role="menu" 
         >
           {/* User info header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-xl">
@@ -113,24 +113,24 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
           </div>
 
           {/* Menu items */}
-          <div className="py-2">
+          <div className="py-2 text-left">
             <Link 
               to="/profile" 
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
-              <User className="w-5 h-5 mr-3 text-gray-500" />
+              <User className={`w-5 h-5 mr-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
               <span className="font-lexend">My Profile</span>
             </Link>
 
             <Link 
               to="/app/dashboard" 
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
-                  <Layout className="w-5 h-5 mr-3 text-gray-500" />
+                  <Layout className={`w-5 h-5 mr-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
                   <span className="font-lexend">Dashboard</span>
                 </div>
                 <div className="flex">
@@ -143,21 +143,21 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/earning" 
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
-              <DollarSign className="w-5 h-5 mr-3 text-gray-500" />
+              <DollarSign className={`w-5 h-5 mr-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
               <span className="font-lexend">Earning</span>
             </Link>
 
             <Link 
               to="/app/subscription"
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
-                  <Gift className="w-5 h-5 mr-3 text-gray-500" />
+                  <Gift className={`w-5 h-5 mr-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
                   <span className="font-lexend">My Subscription</span>
                 </div>
                 <div className="flex items-center">
@@ -169,7 +169,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
             
             {/* Theme Toggle */}
             <button 
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors w-full"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors w-full`}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleTheme();
@@ -188,15 +188,15 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ onSignOut }) => {
 
             <Link 
               to="/app/settings"
-              className="flex items-center px-4 py-3 hover:bg-gray-100 transition-colors"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-gray-800 text-gray-100' : 'hover:bg-gray-100 text-gray-800'} transition-colors`}
               onClick={() => setIsOpen(false)}
             >
-              <Settings className="w-5 h-5 mr-3 text-gray-500" />
+              <Settings className={`w-5 h-5 mr-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
               <span className="font-lexend">Account Setting</span>
             </Link>
 
             <button 
-              className="flex items-center px-4 py-3 hover:bg-red-50 transition-colors w-full text-red-600 mt-2 border-t border-gray-100"
+              className={`flex items-center px-4 py-3 ${isDarkMode ? 'hover:bg-red-900 hover:bg-opacity-20 border-gray-800' : 'hover:bg-red-50 border-gray-100'} transition-colors w-full text-red-600 mt-2 border-t`}
               onClick={handleSignOut}
             >
               <Power className="w-5 h-5 mr-3" />

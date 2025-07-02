@@ -19,14 +19,14 @@
 
 .dark {
   /* Dark theme variables */
-  --color-background: #111827;
-  --color-background-secondary: #1f2937;
-  --color-background-tertiary: #374151;
-  --color-text: #f9fafb;
-  --color-text-secondary: #e5e7eb;
-  --color-text-tertiary: #d1d5db;
-  --color-border: #374151;
-  --color-border-light: #4b5563;
+  --color-background: #0a1122;
+  --color-background-secondary: #121e36;
+  --color-background-tertiary: #1d2d4a;
+  --color-text: #ffffff;
+  --color-text-secondary: #e0e7ff;
+  --color-text-tertiary: #c7d2fe;
+  --color-border: #283c64;
+  --color-border-light: #374873;
 }
 
 /* PWA and Mobile Optimizations */
@@ -302,38 +302,75 @@ canvas {
 
 /* Dark mode component overrides */
 .dark .bg-white {
-  @apply bg-gray-800;
+  @apply bg-gray-800 text-white;
 }
 
 .dark .border-gray-100, 
 .dark .border-gray-200 {
-  @apply border-gray-700;
+  @apply border-gray-700 border-opacity-60;
 }
 
 .dark .text-gray-500 {
-  @apply text-gray-400;
+  @apply text-gray-300;
 }
 
 .dark .text-gray-600, 
 .dark .text-gray-700,
 .dark .text-gray-800,
 .dark .text-gray-900 {
-  @apply text-gray-300;
+  @apply text-gray-100;
 }
 
 .dark .bg-gray-50,
 .dark .bg-gray-100,
 .dark .bg-gray-200 {
-  @apply bg-gray-700;
+  @apply bg-gray-700 bg-opacity-70;
 }
 
 .dark .hover\:bg-gray-100:hover {
-  @apply hover:bg-gray-700;
+  @apply hover:bg-gray-600;
 }
 
 .dark .shadow-sm,
 .dark .shadow-md,
 .dark .shadow-lg,
 .dark .shadow-xl {
-  --tw-shadow-color: rgba(0, 0, 0, 0.3);
+  --tw-shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Card backgrounds in dark mode */
+.dark .bg-blue-50 {
+  @apply bg-blue-900 bg-opacity-30 text-blue-100;
+}
+
+.dark .bg-green-100 {
+  @apply bg-green-900 bg-opacity-30 text-green-100;
+}
+
+.dark .bg-yellow-100 {
+  @apply bg-yellow-900 bg-opacity-30 text-yellow-100;
+}
+
+.dark .bg-red-100 {
+  @apply bg-red-900 bg-opacity-30 text-red-100;
+}
+
+/* Dark mode chart elements */
+.dark .bg-blue-100, 
+.dark .bg-blue-200 {
+  @apply bg-blue-900 bg-opacity-30;
+}
+
+/* Table styles for dark mode */
+.dark .bg-gray-50 {
+  @apply bg-gray-800;
+}
+
+.dark tbody tr.border-gray-100 {
+  @apply border-gray-700;
+}
+
+/* Blue button in dark mode */
+.dark .bg-blue-600 {
+  @apply bg-blue-600 text-white;
 }

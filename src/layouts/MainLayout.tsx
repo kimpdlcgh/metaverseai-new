@@ -66,7 +66,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   }, [isSidebarOpen, navigate]);
 
   return (
-    <div className={`h-screen flex flex-col bg-background text-text transition-colors duration-200 font-opensans overflow-hidden`}>
+    <div className={`h-screen flex flex-col bg-background text-text transition-colors duration-300 font-opensans overflow-hidden ${isDarkMode ? 'dark' : ''}`}>
       {/* Fixed Header */}
       <div className="flex-none">
         <Header toggleSidebar={toggleSidebar} pageTitle={pageTitle} />

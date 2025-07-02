@@ -111,13 +111,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
   return (
     <div>
-      <div className="w-full max-w-none p-4 sm:p-6 space-y-6 bg-slate-100 min-h-screen font-opensans">
+      <div className={`w-full max-w-none p-4 sm:p-6 space-y-6 ${isDarkMode ? 'bg-gray-900' : 'bg-slate-100'} min-h-screen font-opensans transition-colors`}>
             {/* Welcome & Stats Section */}
             <div className="w-full mb-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
                 <div className="lg:col-span-3">
-                  <h3 className="text-base text-gray-500 mb-0 font-opensans">Good Morning,</h3>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 font-lexend">Investor</h1>
+                  <h3 className={`text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-500'} mb-0 font-opensans`}>Good Morning,</h3>
+                  <h1 className={`text-3xl sm:text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} font-lexend`}>Investor</h1>
                 </div>
                 
                 {/* Stats Cards */}
@@ -411,16 +411,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Investment Options */}
-            <div className="w-full bg-white rounded-xl p-6 shadow-sm mb-6 transition-all duration-300">
+            <div className={`w-full ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 shadow-sm mb-6 transition-all duration-300`}>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4">
                 {investmentOptions.map((option, index) => (
                   <a
                     key={index}
                     href={option.href}
-                    className="bg-gray-50 hover:bg-gray-100 rounded-xl p-4 text-center shadow-sm transition-colors group w-full"
+                    className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'} rounded-xl p-4 text-center shadow-sm transition-colors group w-full`}
                   >
-                    <option.icon className="w-8 h-8 text-blue-600 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                    <p className="text-sm text-gray-700 font-medium leading-tight">{option.title}</p>
+                    <option.icon className={`w-8 h-8 text-blue-500 mx-auto mb-3 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+                    <p className={`text-sm font-medium leading-tight ${isDarkMode ? 'text-gray-100' : 'text-gray-700'}`}>{option.title}</p>
                   </a>
                 ))}
               </div>

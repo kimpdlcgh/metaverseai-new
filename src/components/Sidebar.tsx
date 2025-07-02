@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
         left-0 
         w-64 sm:w-64 
         h-screen sm:h-full
-        ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} 
+        ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} 
         border-r 
         transition-transform duration-300 ease-in-out 
         z-50 sm:z-30 
@@ -46,29 +46,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
       `}
     >
       {/* Mobile sidebar header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 sm:hidden">
+      <div className="flex items-center justify-between p-4 border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} sm:hidden">
         <div className="flex items-center">
           <img 
-            src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"} 
+            src={isDarkMode ? "/metaverselogo1 copy.svg" : "/metaverseailogo.svg"} 
             alt="MetaverseAI Logo" 
-            className="h-8 mr-2 object-contain" 
+            className="h-10 mr-2 object-contain" 
           />
         </div>
-        <button className="p-2 hover:bg-gray-100 rounded-lg">
+        <button className={`p-2 ${isDarkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100'} rounded-lg`}>
           <X className="w-5 h-5" />
         </button>
       </div>
 
       <div className="p-4 flex-1 flex flex-col">
         <div className="mb-6">
-          <h6 className="text-sm font-medium mb-4">Main Menu</h6>
+          <h6 className="text-sm font-medium mb-4 uppercase tracking-wider">Main Menu</h6>
           <div className="text-center mb-4">
             <img 
               src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" 
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 object-cover border-4 border-white shadow-md"
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 object-cover border-4 ${isDarkMode ? 'border-gray-700' : 'border-white'} shadow-md`}
             />
-            <h5 className="font-medium font-lexend">{user?.email?.split('@')[0] || 'User'}</h5>
-            <p className="text-sm text-gray-500 font-opensans">{user?.email || 'Investment Platform'}</p>
+            <h5 className="font-medium font-lexend text-lg">{user?.email?.split('@')[0] || 'User'}</h5>
+            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-500'} font-opensans`}>{user?.email || 'Investment Platform'}</p>
           </div>
         </div>
 
@@ -96,8 +96,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
               className={({ isActive }) =>
                 `flex items-center space-x-3 px-3 py-3 rounded-lg ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : `${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100 text-gray-700'}`
+                    ? 'bg-blue-600 text-white shadow-md font-semibold'
+                    : `${isDarkMode ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-gray-100 text-gray-700'}`
                 } transition-colors touch-manipulation font-lexend`
               }
               end={item.path === "/dashboard"}
@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
                   <span className={`text-xs py-0.5 px-1.5 rounded ${
                     item.badge === 'NEW' ? 'bg-green-100 text-green-700' : 
                     item.badge === 'PRO' ? 'bg-purple-100 text-purple-700' : ''
-                  }`}>
+                  } ${isDarkMode ? 'bg-opacity-30' : ''}`}>
                     {item.badge}
                   </span>
                 )}
@@ -123,7 +123,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
         </nav>
 
         {/* Bottom navigation items */}
-        <div className="mt-auto space-y-2">
+        <div className="mt-auto space-y-2 pt-6">
+          <h6 className="text-sm font-medium mb-3 uppercase tracking-wider px-3 pb-2 border-t border-gray-200 dark:border-gray-700 pt-4">Account</h6>
           {[
             { path: "/profile", icon: <Users className="w-5 h-5" />, label: "My Profile" },
             { path: "/app/settings", icon: <Settings className="w-5 h-5" />, label: "Settings" },
@@ -132,15 +133,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-3 py-3 rounded-lg ${
+                `flex items-center px-3 py-3 rounded-lg ${
                   isActive
                     ? 'bg-blue-600 text-white'
-                    : `${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} text-inherit`
+                    : `${isDarkMode ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-gray-100 text-gray-700'}`
                 } transition-colors touch-manipulation font-lexend`
               }
               end={item.path === "/profile"}
             >
-              {item.icon}
+              <span className="mr-3">{item.icon}</span>
               <span>{item.label}</span>
             </NavLink>
           ))}

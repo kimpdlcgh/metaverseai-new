@@ -26,14 +26,14 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
   };
 
   return (
-    <header className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-sm border-b z-50 h-16 w-full`}>
+    <header className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} shadow-sm border-b z-50 h-16 w-full`}>
       <div className="w-full px-4 sm:px-6 h-full transition-colors">
         <div className="flex justify-between items-center h-full">
           {/* Mobile Menu Button */}
           <button
             id="menu-button"
             onClick={toggleSidebar}
-            className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors sm:hidden`}
+            className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700 text-white' : 'hover:bg-gray-100'} transition-colors sm:hidden`}
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -41,9 +41,9 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
             <img 
-              src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"}
-              alt="MetaverseAI Logo"
-              className="h-9 mr-2 object-contain"
+              src={isDarkMode ? "/metaverselogo1 copy.svg" : "/metaverseailogo.svg"}
+              alt="MetaverseAI Logo" 
+              className="h-10 mr-2 object-contain"
             />
           </Link>
 
