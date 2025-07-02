@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
       <div className="flex items-center justify-between p-4 border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} sm:hidden">
         <div className="flex items-center">
           <img 
-            src={isDarkMode ? "/metaverselogo1 copy.svg" : "/metaverseailogo.svg"} 
+            src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"} 
             alt="MetaverseAI Logo" 
             className="h-10 mr-2 object-contain" 
           />
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
                   <span className="w-5 h-5 flex items-center justify-center mr-3">
                     {item.icon}
                   </span>
-                  <span>{item.label}</span>
+                  <span className="text-sm font-medium">{item.label}</span>
                 </div>
                 {item.badge && (
                   <span className={`text-xs py-0.5 px-1.5 rounded ${
