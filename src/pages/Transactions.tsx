@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  TrendingUp, 
-  User, 
-  LogOut, 
   Filter, 
   Plus, 
   Eye, 
@@ -12,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
+import PageHeader from '../components/ui/PageHeader';
 
 interface TransactionsProps {
   isDarkMode?: boolean;
@@ -119,6 +117,11 @@ export const Transactions: React.FC<TransactionsProps> = ({ isDarkMode = false }
     setIsFilterOpen(!isFilterOpen);
   };
 
+  const handleCreateInvoice = () => {
+    // Handle invoice creation logic here
+    console.log('Create invoice clicked');
+  };
+
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case 'Completed':
@@ -140,38 +143,20 @@ export const Transactions: React.FC<TransactionsProps> = ({ isDarkMode = false }
 
   return (
     <div>
-      {/* Breadcrumb */}
-          <div className="container-fluid mt-4">
-            <div className="row items-center">
-              <div className="col-12 col-sm">
-                <nav aria-label="breadcrumb" className="mb-2">
-                  <ol className="breadcrumb mb-0">
-                    <li className="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                    <li className="breadcrumb-item active" aria-current="page">Transactions</li>
-                  </ol>
-                </nav>
-                <h5>Transactions</h5>
-              </div>
-              <div className="col-auto py-1">
-                <a href="#" className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                  <Plus className="w-4 h-4 mr-2" />
-                  <span>Invoice</span>
-                </a>
-              </div>
-              <div className="col-auto py-1 ms-auto ms-sm-0">
-                <button 
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
-                  onClick={toggleFilter}
-                >
-                  <Filter className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
+      <PageHeader 
+        title="Transactions"
+        breadcrumbItems={[
+          { label: 'Home', href: '/dashboard' },
+          { label: 'Transactions' }
+        ]}
+        actionLabel="Invoice"
+        onAction={handleCreateInvoice}
+        filterButton={true}
+        onFilterToggle={toggleFilter}
+      />
 
-          {/* Content */}
-          <div className="container">
-            {/* Filter Area */}
+      <div className="container">
+        {/* Filter Area */}
             {isFilterOpen && (
               <div className="mt-4">
                 <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
@@ -292,7 +277,7 @@ export const Transactions: React.FC<TransactionsProps> = ({ isDarkMode = false }
                 </table>
               </div>
             </div>
-          </div>
+      </div>
     </div>
   );
 };

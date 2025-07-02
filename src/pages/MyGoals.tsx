@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
-  User, 
-  LogOut, 
   Home,
   Car,
   Flag,
@@ -11,11 +9,11 @@ import {
   DollarSign,
   Edit,
   Plus,
-  Menu,
-  X
+  ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
+import PageHeader from '../components/ui/PageHeader';
 
 interface MyGoalsProps {
   isDarkMode?: boolean;
@@ -43,6 +41,11 @@ export default function MyGoals({ isDarkMode = false }: MyGoalsProps) {
   // Debug text
   const [totalGrowth, setTotalGrowth] = useState(7450);
   const [goalsCompletingSoon, setGoalsCompletingSoon] = useState(1);
+
+  const handleCreateGoal = () => {
+    // Handle goal creation logic here
+    console.log('Create goal clicked');
+  };
   
   const [goals, setGoals] = useState<Goal[]>([
     {
@@ -78,32 +81,17 @@ export default function MyGoals({ isDarkMode = false }: MyGoalsProps) {
 
   return (
     <div>
-      {/* Debug text */}
-      <div>My Goals Loaded</div>
-      
-      {/* Breadcrumb */}
-          <div className="container-fluid mt-4">
-            <div className="flex flex-wrap items-center">
-              <div className="w-full sm:flex-1">
-                <nav aria-label="breadcrumb" className="mb-2">
-                  <ol className="breadcrumb mb-0">
-                    <li className="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                    <li className="breadcrumb-item active" aria-current="page">My Goals</li>
-                  </ol>
-                </nav>
-                <h5>My Goals</h5>
-              </div>
-              <div className="w-full sm:w-auto text-end py-3 py-sm-0">
-                <a href="#" className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                  <Plus className="w-4 h-4 mr-2" />
-                  <span>Create Goal</span>
-                </a>
-              </div>
-            </div>
-          </div>
+      <PageHeader 
+        title="My Goals"
+        breadcrumbItems={[
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'My Goals' }
+        ]}
+        actionLabel="Create Goal"
+        onAction={handleCreateGoal}
+      />
 
-          {/* Content */}
-          <div className="container mt-4">
+      <div className="container mt-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               {/* Primary goal */}
               <div className="col-span-1 lg:col-span-12 xl:col-span-4">
@@ -286,7 +274,7 @@ export default function MyGoals({ isDarkMode = false }: MyGoalsProps) {
                 </div>
               ))}
             </div>
-          </div>
+      </div>
     </div>
   );
 }
