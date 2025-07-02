@@ -110,7 +110,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
   return (
     <div>
-      <div className="w-full max-w-none p-4 sm:p-6 space-y-4 bg-slate-100">
+      <div className="w-full max-w-none p-4 sm:p-6 space-y-6 bg-slate-100 min-h-screen">
             {/* Welcome & Stats Section */}
             <div className="w-full mb-4">
               <div className="flex flex-col">
@@ -153,16 +153,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Portfolio Growth and Summary */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 h-full">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Portfolio Growth Card */}
               <div className="w-full lg:col-span-1">
-                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden w-full h-full flex flex-col justify-center">
+                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden w-full h-full min-h-[280px] flex flex-col justify-center">
                   <div className="absolute inset-0 opacity-30">
                     <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg" alt="Background" className="w-full h-full object-cover" />
                   </div>
-                  <div className="relative z-10 text-center">
+                  <div className="relative z-10 text-center flex flex-col justify-center items-center h-full">
                     <h2 className="text-xl sm:text-2xl font-normal mb-4">Your portfolio value has been grown by</h2>
-                    <h1 className="text-3xl sm:text-5xl font-bold mb-2">$7.52k</h1>
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2">$7.52k</h1>
                     <p className="opacity-90 text-lg">In last 7 days</p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
               {/* Summary and Chart */}
               <div className="w-full lg:col-span-2 h-full">
-                <div className="bg-white rounded-2xl shadow-sm w-full h-full">
+                <div className="bg-white rounded-2xl shadow-sm w-full h-full min-h-[280px]">
                   <div className="grid grid-cols-1 xl:grid-cols-2">
                     {/* Summary Cards */}
                     <div className="p-5 sm:p-6 w-full">
@@ -207,7 +207,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                     </div>
 
                     {/* Chart Section */}
-                    <div className="p-5 sm:p-6 w-full">
+                    <div className="p-5 sm:p-6 w-full flex flex-col h-full justify-between">
                       <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
                         <div className="flex gap-2 sm:gap-2">
                           <button className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-full">1D</button>
@@ -228,7 +228,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                         </div>
                         
                         {/* Chart */}
-                        <div className="h-[280px] w-full">
+                        <div className="h-full min-h-[200px] w-full">
                           <div className="relative h-full w-full">
                             <div className="absolute inset-0 flex flex-col justify-between">
                               {[18, 16, 14, 12, 10, 8, 6, 4, 2, 0].map((value, index) => (
@@ -276,7 +276,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Market Updates */}
-            <div className="w-full bg-white rounded-xl p-4 shadow-sm">
+            <div className="w-full bg-white rounded-xl p-4 shadow-sm transition-all duration-300">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h6 className="font-medium">Updates:</h6>
@@ -305,10 +305,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Investment Categories and Wallet */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
               {/* Investment Categories */}
               <div className="w-full xl:col-span-2">
-                <div className="bg-white rounded-2xl shadow-sm w-full">
+                <div className="bg-white rounded-2xl shadow-sm w-full transition-all duration-300">
                   <div className="grid grid-cols-1 lg:grid-cols-2">
                     {/* Doughnut Chart */}
                     <div className="p-4 sm:p-6 w-full">
@@ -354,7 +354,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
               {/* Wallet */}
               <div className="w-full xl:col-span-1">
-                <div className="bg-white rounded-2xl shadow-sm h-full w-full">
+                <div className="bg-white rounded-2xl shadow-sm h-full w-full transition-all duration-300">
                   <div className="p-4 sm:p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center">
@@ -411,7 +411,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Investment Options */}
-            <div className="w-full bg-white rounded-xl p-6 shadow-sm mb-6">
+            <div className="w-full bg-white rounded-xl p-6 shadow-sm mb-6 transition-all duration-300">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4">
                 {investmentOptions.map((option, index) => (
                   <a
@@ -427,7 +427,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Goals and Additional Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 transition-all duration-300">
               {goals.slice(0, 2).map((goal, index) => (
                 <div key={index} className="bg-white rounded-xl shadow-sm p-4 sm:p-6 w-full">
                   <div className="flex items-center mb-4">
@@ -501,8 +501,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Fund Offer */}
-            <div className="w-full mb-6">
-              <div className="bg-blue-600 text-white rounded-2xl p-6 w-full">
+            <div className="w-full mb-6 transition-all duration-300">
+              <div className="bg-blue-600 text-white rounded-2xl p-6 w-full transition-all duration-300">
                 <h2 className="text-2xl font-medium mb-4">Adminuiux Innovation and tech Fund</h2>
                 <h4 className="text-lg sm:text-xl mb-1">$15.52</h4>
                 <p className="opacity-75 mb-4">Current Nav (Today)</p>
@@ -545,7 +545,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             </div>
 
             {/* Holdings Table */}
-            <div className="bg-white rounded-2xl shadow-sm w-full">
+            <div className="bg-white rounded-2xl shadow-sm w-full transition-all duration-300">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <h6 className="font-medium">Market with Technical Trend</h6>
