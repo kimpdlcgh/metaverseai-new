@@ -94,9 +94,22 @@ export class InvestorService {
           .update(sanitizedData)
           .eq('user_id', userId)
           .select()
-          .single();
+          .maybeSingle();
 
         if (error) throw error;
+        
+        // If maybeSingle returns null, re-fetch the updated record
+        if (!updatedInvestor) {
+          const { data: refetchedInvestor, error: refetchError } = await supabase
+            .from('investors')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+          
+          if (refetchError) throw refetchError;
+          return refetchedInvestor;
+        }
+        
         return updatedInvestor;
       } else {
         // Create new investor
@@ -104,9 +117,22 @@ export class InvestorService {
           .from('investors')
           .insert(sanitizedData)
           .select()
-          .single();
+          .maybeSingle();
 
         if (error) throw error;
+        
+        // If maybeSingle returns null, re-fetch the newly created record
+        if (!newInvestor) {
+          const { data: refetchedInvestor, error: refetchError } = await supabase
+            .from('investors')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+          
+          if (refetchError) throw refetchError;
+          return refetchedInvestor;
+        }
+        
         return newInvestor;
       }
     } catch (error) {
