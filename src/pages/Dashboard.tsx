@@ -112,16 +112,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
     <div>
       <div className="w-full max-w-none p-4 sm:p-6 space-y-6 bg-slate-100 min-h-screen">
             {/* Welcome & Stats Section */}
-            <div className="w-full mb-4">
-              <div className="flex flex-col">
-                <div>
-                  <h3 className="text-lg sm:text-xl text-gray-500 mb-0">Good</h3>
-                  <h3 className="text-lg sm:text-xl text-gray-500 mb-1">Morning,</h3>
+            <div className="w-full mb-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+                <div className="lg:col-span-3">
+                  <h3 className="text-base text-gray-500 mb-0">Good Morning,</h3>
                   <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">Investor</h1>
                 </div>
                 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                <div className="lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-white rounded-xl p-4 shadow-sm w-full">
                     <p className="text-sm text-gray-500 mb-1">Total Profit</p>
                     <h4 className="text-xl sm:text-2xl font-bold mb-1">${portfolioData.totalProfit}k</h4>
@@ -155,14 +154,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
             {/* Portfolio Growth and Summary */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Portfolio Growth Card */}
-              <div className="w-full lg:col-span-1">
-                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden w-full h-full min-h-[280px] flex flex-col justify-center">
+              <div className="w-full lg:col-span-1 min-h-[280px]">
+                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden w-full h-full portfolio-growth-card">
                   <div className="absolute inset-0 opacity-30">
                     <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg" alt="Background" className="w-full h-full object-cover" />
                   </div>
-                  <div className="relative z-10 text-center flex flex-col justify-center items-center h-full">
+                  <div className="portfolio-growth-content">
                     <h2 className="text-xl sm:text-2xl font-normal mb-4">Your portfolio value has been grown by</h2>
-                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-2">$7.52k</h1>
+                    <h1 className="portfolio-value">$7.52k</h1>
                     <p className="opacity-90 text-lg">In last 7 days</p>
                   </div>
                 </div>
@@ -170,7 +169,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
 
               {/* Summary and Chart */}
               <div className="w-full lg:col-span-2 h-full">
-                <div className="bg-white rounded-2xl shadow-sm w-full h-full min-h-[280px]">
+                <div className="bg-white rounded-2xl shadow-sm w-full h-full min-h-[280px] transition-all duration-300">
                   <div className="grid grid-cols-1 xl:grid-cols-2">
                     {/* Summary Cards */}
                     <div className="p-5 sm:p-6 w-full">
@@ -179,7 +178,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ isDarkMode = false }) => {
                       <div className="space-y-5 w-full">
                         <div className="bg-blue-600 rounded-lg p-5 text-white w-full">
                           <p className="text-base opacity-90 mb-1">Current Value</p>
-                          <h4 className="flex items-baseline">
+                          <h4 className="flex items-center">
                             <span className="text-2xl sm:text-3xl font-medium">$ {portfolioData.currentValue}k</span>
                             <span className="text-sm ml-2 flex items-center">
                               <ArrowUp className="w-4 h-4 inline mr-1" />
