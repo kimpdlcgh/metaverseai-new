@@ -28,7 +28,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     <div className="w-full mb-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="w-full sm:flex-1">
-          <Breadcrumb items={breadcrumbItems} />
+          {breadcrumbItems.length > 1 && <Breadcrumb items={breadcrumbItems} />}
           <h1 className="text-2xl font-bold text-gray-800 font-lexend flex items-center">
             {title}
             {children}

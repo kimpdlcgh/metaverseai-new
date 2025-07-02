@@ -63,7 +63,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   }, [isSidebarOpen, navigate]);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-slate-50 text-gray-900'} transition-colors duration-200 font-opensans`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-slate-50 text-gray-900'} transition-colors duration-200 font-opensans overflow-x-hidden`}>
       <Header toggleSidebar={toggleSidebar} pageTitle={pageTitle} />
 
       <div className="flex">

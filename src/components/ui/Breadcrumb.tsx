@@ -25,11 +25,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
             )}
             <li className={index === items.length - 1 ? "text-gray-700 font-medium" : "text-gray-500 hover:text-blue-600"}>
               {item.href && index !== items.length - 1 ? (
-                <Link to={item.href} className="hover:text-blue-600 transition-colors">
+                <Link to={item.href} className={`hover:text-blue-600 transition-colors ${index === 0 ? "sr-only" : ""}`}>
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current={index === items.length - 1 ? "page" : undefined}>
+                <span aria-current={index === items.length - 1 ? "page" : undefined} className={index === 0 ? "sr-only" : ""}>
                   {item.label}
                 </span>
               )}

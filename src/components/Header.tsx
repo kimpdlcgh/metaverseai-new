@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Sun, Moon, Bell, Menu, Home } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AvatarMenu from './AvatarMenu';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
           </button>
 
           {/* Logo */}
-          <div className="flex items-center">
+          <Link to="/dashboard" className="flex items-center">
             <svg
               viewBox="0 0 24 24"
               width="28"
@@ -55,40 +55,28 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
             >
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
             </svg>
-            <div className="flex flex-col">
-              <h1 className="text-xl font-bold font-lexend leading-tight">InvestmentUX</h1>
-              <div className="hidden sm:flex items-center text-xs text-gray-500">
-                <Link to="/dashboard" className="hover:text-blue-600 transition-colors">
-                  <Home className="w-3 h-3 inline mr-1" />
-                  <span>Home</span>
-                </Link>
-                {pageTitle && (
-                  <>
-                    <span className="mx-2 text-gray-400">/</span>
-                    <span className="text-gray-600">{pageTitle}</span>
-                  </>
-                )}
-              </div>
+            <div>
+              <h1 className="text-xl font-bold font-lexend">InvestmentUX</h1>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex space-x-6">
-            <Link to="/dashboard" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
+            <NavLink to="/dashboard" className={({ isActive }) => `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend ${isActive ? 'font-medium text-blue-600' : ''}`}>
               Dashboard
-            </Link>
-            <Link to="/app/portfolio" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
+            </NavLink>
+            <NavLink to="/app/portfolio" className={({ isActive }) => `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend ${isActive ? 'font-medium text-blue-600' : ''}`}>
               Portfolio
-            </Link>
-            <Link to="/app/transactions" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
+            </NavLink>
+            <NavLink to="/app/transactions" className={({ isActive }) => `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend ${isActive ? 'font-medium text-blue-600' : ''}`}>
               Transaction
-            </Link>
-            <Link to="/app/earning" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
+            </NavLink>
+            <NavLink to="/app/earning" className={({ isActive }) => `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend ${isActive ? 'font-medium text-blue-600' : ''}`}>
               Earning
-            </Link>
-            <Link to="/app/news" className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend`}>
+            </NavLink>
+            <NavLink to="/app/news" className={({ isActive }) => `${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors font-lexend ${isActive ? 'font-medium text-blue-600' : ''}`}>
               News
-            </Link>
+            </NavLink>
           </nav>
 
           {/* Right side controls */}
