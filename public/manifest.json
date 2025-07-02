@@ -1,0 +1,17 @@
+{
+  "name": "Investment Platform",
+  "short_name": "InvestPlatform",
+  "description": "Secure Investment Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
