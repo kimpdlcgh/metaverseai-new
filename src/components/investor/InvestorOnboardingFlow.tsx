@@ -269,30 +269,3 @@ export const InvestorOnboardingFlow: React.FC = () => {
     </div>
   );
 };
-      {skipModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-bold mb-2">Skip Onboarding?</h3>
-            <p className="text-gray-600 mb-6">
-              If you skip the onboarding process, you can always complete your profile later from your account settings.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={cancelSkip}
-                className="px-4 py-2 min-h-[44px] min-w-[44px] border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmSkip}
-                className="px-4 py-2 min-h-[44px] min-w-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Skip Onboarding
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
