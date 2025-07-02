@@ -43,9 +43,9 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
             <img
-              src="/metaverseai.logo.png"
+              src="/metaverseailogo.svg"
               alt="MetaverseAI Logo"
-              className="h-10 mr-2"
+              className="h-8 mr-2"
             />
           </Link>
 
