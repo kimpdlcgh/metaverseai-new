@@ -363,15 +363,9 @@ export const InvestorStep3: React.FC<InvestorStep3Props> = ({ onComplete, onPrev
               <span className="ml-2 text-sm font-medium text-slate-900">No</span>
             </label>
           </div>
-        </div>
-
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <p className="text-green-700 text-sm">
-            <strong>Almost done!</strong> This information helps us provide personalized 
-            investment recommendations and ensure regulatory compliance. All data is 
-            securely encrypted and never shared with third parties. You're on the final step!
-          </p>
-        </div>
+        
+        {/* Navigation controls moved to fixed footer in parent component */}
+        <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>
         
         {/* Navigation controls moved to fixed footer in parent component */}
         <Button type="submit" loading={loading} className="hidden">Complete Profile</Button>

@@ -7,15 +7,18 @@ import { InvestorStep3 } from './InvestorStep3';
 import { InvestorService } from '../../services/investorService';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
+import { useToast } from '../../contexts/ToastContext';
 
 const INVESTOR_STEPS = ['Personal Info', 'Address', 'Investment Profile'];
 
 export const InvestorOnboardingFlow: React.FC = () => {
   const { user, checkOnboardingStatus } = useAuth();
   const { showToast } = useToast();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [skipModalOpen, setSkipModalOpen] = useState(false);
   const [skipModalOpen, setSkipModalOpen] = useState(false);
 
   useEffect(() => {
@@ -60,6 +63,7 @@ export const InvestorOnboardingFlow: React.FC = () => {
 
   const handleComplete = async () => {
     showToast('success', 'Profile setup completed successfully!');
+    showToast('success', 'Profile setup completed successfully!');
     // Refresh onboarding status in auth context
     await checkOnboardingStatus();
     navigate('/dashboard');
@@ -67,6 +71,18 @@ export const InvestorOnboardingFlow: React.FC = () => {
 
   const handleSkip = () => {
     setSkipModalOpen(true);
+  };
+
+  const confirmSkip = () => {
+    // Save user preference to skip onboarding
+    localStorage.setItem('onboardingSkipped', 'true');
+    showToast('info', 'Onboarding skipped. You can complete your profile later in settings.');
+    navigate('/dashboard');
+    setSkipModalOpen(false);
+  };
+
+  const cancelSkip = () => {
+    setSkipModalOpen(false);
   };
 
   const confirmSkip = () => {
@@ -118,8 +134,19 @@ export const InvestorOnboardingFlow: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10 pointer-events-none"></div>
+
+      {/* Skip button in top-right */}
+      <div className="fixed top-4 right-4 z-50">
+        <button 
+          onClick={handleSkip}
+          aria-label="Skip onboarding"
+          className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full hover:bg-white/30 transition-colors shadow-md min-w-[44px] min-h-[44px] flex items-center justify-center"
+        >
+          Skip <span aria-hidden="true" className="ml-1">→</span>
+        </button>
+      </div>
 
       {/* Skip button in top-right */}
       <div className="fixed top-4 right-4 z-50">
@@ -172,8 +199,76 @@ export const InvestorOnboardingFlow: React.FC = () => {
           </div>
         </div>
       </div>
+        <div className="text-center mb-8 pt-4">
+          <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
+            <img src="/assets/metaverselogo1.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-3 font-lexend">Investor Profile Setup</h1>
+          <p className="text-slate-300">Complete your investor profile to get personalized investment recommendations</p>
+        </div>
+
+      <div className="relative max-w-4xl mx-auto flex flex-col min-h-[calc(100vh-2rem)]">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl flex flex-col flex-1 overflow-hidden">
+          <div className="p-6 sm:p-8">
+            <ProgressBar 
+              currentStep={currentStep} 
+              totalSteps={3} 
+              steps={INVESTOR_STEPS} 
+            />
+          </div>
+          
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8 pb-32">
+            {renderCurrentStep()}
+          </div>
+          
+          {/* Fixed navigation footer */}
+          <div className="sticky bottom-0 left-0 right-0 p-4 sm:p-6 bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-md z-40 flex justify-between">
+            <button
+              onClick={currentStep === 1 ? handleSkip : handlePrevious}
+              className="px-6 py-2 min-h-[44px] min-w-[44px] text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none transition-colors"
+            >
+              {currentStep === 1 ? 'Skip' : 'Previous'}
+            </button>
+            
+            <button
+              onClick={currentStep === 3 ? handleComplete : handleNext}
+              className="px-6 py-2 min-h-[44px] min-w-[44px] text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:outline-none transition-colors"
+            >
+              {currentStep === 3 ? 'Complete' : 'Continue'}
+            </button>
+          </div>
+        </div>
+      </div>
       
       {/* Skip confirmation modal */}
+      {skipModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
+            <h3 className="text-lg font-bold mb-2">Skip Onboarding?</h3>
+            <p className="text-gray-600 mb-6">
+              If you skip the onboarding process, you can always complete your profile later from your account settings.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={cancelSkip}
+                className="px-4 py-2 min-h-[44px] min-w-[44px] border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmSkip}
+                className="px-4 py-2 min-h-[44px] min-w-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Skip Onboarding
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
       {skipModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-fade-in">
