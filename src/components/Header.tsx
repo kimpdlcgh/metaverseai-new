@@ -56,7 +56,11 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, pageTitle = 'Dashboard' 
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center">
             <img 
-              src={isDarkMode ? "/metaverselogo1.svg" : "/metaverseailogo.svg"}
+              src={
+                isDarkMode
+                  ? "/assets/metaverselogo1.svg"       // dark mode filename
+                  : "/assets/metaverseailogo.svg"       // light mode filename
+              }
               alt="MetaverseAI Logo" 
               className="h-10 mr-2 object-contain"
             />
