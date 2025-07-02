@@ -74,10 +74,7 @@ export const InvestorStep1: React.FC<InvestorStep1Props> = ({ onNext, onSkip }) 
     if (value && !value.startsWith('+')) {
       return `+${value.replace(/\D/g, '')}`;
     }
-    // Navigate to dashboard when skip is clicked
-    navigate('/dashboard');
-  
-  // Skip function now handled in the parent component
+    return value;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
