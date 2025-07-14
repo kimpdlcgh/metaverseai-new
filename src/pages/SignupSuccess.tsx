@@ -2,9 +2,19 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Wallet, BarChart3, ArrowRight, CheckCircle, TrendingUp } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import { useAuth } from '../contexts/AuthContext';
 
 export const SignupSuccess: React.FC = () => {
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
+
+  // If not authenticated, redirect to login
+  useEffect(() => {
+    if (!loading && !user) {
+      console.error('User not authenticated in SignupSuccess page');
+      navigate('/login');
+    }
+  }, [user, loading, navigate]);
 
   const handleInvestmentClick = () => {
     navigate('/onboarding');
@@ -13,6 +23,18 @@ export const SignupSuccess: React.FC = () => {
   const handleBrokerClick = () => {
     navigate('/onboarding');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null; // Will redirect in the useEffect
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row overflow-hidden">

@@ -37,15 +37,22 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      // Sign up with email confirmation disabled for development
-      await signUp(formData.email, formData.password, {
+      const { user, session } = await signUp(formData.email, formData.password, {
         data: {
           full_name: formData.fullName
         }
       });
       
-      // Navigate directly to onboarding since email confirmation is disabled
-      navigate('/signup-success');
+      console.log('Signup successful:', { user, session });
+      
+      if (user) {
+        // Add a slight delay to ensure auth state is updated
+        setTimeout(() => {
+          navigate('/signup-success');
+        }, 500);
+      } else {
+        throw new Error('Signup successful but no user returned');
+      }
     } catch (err: any) {
       console.error('Signup error:', err);
       

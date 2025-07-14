@@ -7,7 +7,7 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   onboardingCompleted: boolean | null;
-  signUp: (email: string, password: string, options?: { data?: any }) => Promise<void>;
+  signUp: (email: string, password: string, options?: { data?: any }) => Promise<{ user: User | null; session: Session | null }>;
   signIn: (email: string, password: string) => Promise<void>;
   checkOnboardingStatus: () => Promise<void>;
   onboardingCheckInProgress: boolean;
@@ -20,7 +20,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
-  const [onboardingCheckInProgress, setOnboardingCheckInProgress] = useState<boolean>(false);
 
   const checkOnboardingStatus = async () => {
     if (!user) {
@@ -99,12 +98,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Check onboarding status when user changes
   useEffect(() => {
-    if (user && !loading) {
+    if (user && !loading && onboardingCompleted === null) {
       checkOnboardingStatus();
     }
   }, [user, loading]);
 
-  const signUp = async (email: string, password: string, options?: { data?: any }) => {
+  const signUp = async (email: string, password: string, options?: { data?: any }): Promise<{ user: User | null; session: Session | null }> => {
     try {
       // Sign up with email confirmation disabled for development
       const { data, error } = await supabase.auth.signUp({
@@ -119,12 +118,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) {
         throw error;
       }
-
+      
+      console.log('Signup response:', data);
+      
       // If user is immediately available (email confirmation disabled), create profile
       if (data.user && !data.user.email_confirmed_at) {
         // For development, we'll treat the user as confirmed
         console.log('User signed up successfully (email confirmation disabled for development)');
       }
+      
+      // Set user and session state immediately
+      if (data.user) {
+        setUser(data.user);
+        setSession(data.session);
+      }
+      
+      return { user: data.user, session: data.session };
     } catch (error) {
       console.error('Signup error:', error);
       throw error;
@@ -141,6 +150,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) {
         throw error;
       }
+      
+      // Set user and session state immediately
+      setUser(data.user);
+      setSession(data.session);
 
       return data;
     } catch (error) {
