@@ -89,13 +89,10 @@ export default function Signup() {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative w-full max-w-md">
-        <div className={`${isDarkMode ? 'bg-gray-800/95 text-white' : 'bg-white/95'} backdrop-blur-sm rounded-2xl shadow-2xl p-8 sm:p-10`}>
+        <div className={`${isDarkMode ? 'bg-gray-800/95 text-white' : 'bg-white'} backdrop-blur-sm rounded-2xl shadow-2xl p-8 sm:p-10`}>
           <div className="text-center mb-8">
-            <div className="w-32 h-32 mx-auto mb-6">
-              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
-            </div>
-            <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
-              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
+            <div className="inline-flex items-center justify-center w-32 h-32 mx-auto mb-6 bg-white rounded-lg p-2">
+              <img src="/assets/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} mb-3 font-lexend`}>Create Account</h1>
             <p className={`${isDarkMode ? 'text-gray-300' : 'text-slate-600'}`}>Join thousands of successful traders</p>
