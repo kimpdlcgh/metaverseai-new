@@ -55,7 +55,7 @@ export const Login: React.FC = () => {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative w-full max-w-md">
-        <div className={`${isDarkMode ? 'bg-gray-800/95 text-white' : 'bg-white'} backdrop-blur-sm rounded-2xl shadow-2xl p-8`}>
+        <div className="bg-white text-slate-900 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-32 h-32 mb-6 bg-white rounded-lg p-2">
               <img src="/assets/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
@@ -65,7 +65,7 @@ export const Login: React.FC = () => {
           </div>
 
           {error && (
-            <div className={`${isDarkMode ? 'bg-red-900/30 border-red-800' : 'bg-red-50 border-red-200'} border rounded-lg p-4 mb-6`}>
+            <div className="bg-red-50 border-red-200 border rounded-lg p-4 mb-6">
               <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
