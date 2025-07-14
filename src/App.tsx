@@ -40,7 +40,11 @@ function App() {
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/signup-success" element={<SignupSuccess />} />
+                <Route path="/signup-success" element={
+                  <ProtectedRoute requireOnboardingComplete={false}>
+                    <SignupSuccess />
+                  </ProtectedRoute>
+                } />
 
               <Route path="/profile" element={
                 <ProtectedRoute>
