@@ -89,7 +89,7 @@ export default function Signup() {
       <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative w-full max-w-md">
-        <div className={`${isDarkMode ? 'bg-gray-800/95 text-white' : 'bg-white'} backdrop-blur-sm rounded-2xl shadow-2xl p-8 sm:p-10`}>
+        <div className="bg-white text-slate-900 backdrop-blur-sm rounded-2xl shadow-2xl p-8 sm:p-10">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-32 h-32 mx-auto mb-6 bg-white rounded-lg p-2">
               <img src="/assets/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
@@ -99,7 +99,7 @@ export default function Signup() {
           </div>
 
           {error && (
-            <div className={`mb-6 p-4 ${isDarkMode ? 'bg-red-900/30 border-red-800' : 'bg-red-50 border-red-200'} border rounded-lg flex items-center gap-3`}>
+            <div className="mb-6 p-4 bg-red-50 border-red-200 border rounded-lg flex items-center gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
               <p className="text-red-600 text-sm">{error}</p>
             </div>
