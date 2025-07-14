@@ -11,6 +11,8 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   checkOnboardingStatus: () => Promise<void>;
+  onboardingCheckInProgress: boolean;
+  checkOnboardingStatus: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,12 +23,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
   const [onboardingCheckInProgress, setOnboardingCheckInProgress] = useState<boolean>(false);
+  const [onboardingCheckInProgress, setOnboardingCheckInProgress] = useState<boolean>(false);
 
   const checkOnboardingStatus = async () => {
     if (!user) {
       setOnboardingCompleted(null);
       return;
     }
+    
+    setOnboardingCheckInProgress(true);
     
     setOnboardingCheckInProgress(true);
     try {
@@ -66,6 +71,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error checking onboarding status:', error);  
       setOnboardingCompleted(false);
+    } finally {
+      setOnboardingCheckInProgress(false);
     } finally {
       setOnboardingCheckInProgress(false);
     }
@@ -165,10 +172,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     session,
     loading,
     onboardingCheckInProgress,
+    onboardingCheckInProgress,
     onboardingCompleted,
     signUp,
     signIn,
     signOut,
+    checkOnboardingStatus,
     checkOnboardingStatus,
   };
 

@@ -43,7 +43,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const showToast = (type: ToastType, message: string, duration = 3000) => {
     const id = Date.now().toString();
     const newToast: Toast = { id, type, message, duration };
-    
+
+    console.log(`Toast shown: ${type} - ${message}`);
     console.log(`Toast shown: ${type} - ${message}`);
     setToasts(prev => [...prev, newToast]);
   };
