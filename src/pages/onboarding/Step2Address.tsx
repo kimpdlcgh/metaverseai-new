@@ -5,9 +5,11 @@ import { OnboardingLayout } from './OnboardingLayout';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { useToast } from '../../contexts/ToastContext';
+import { OnboardingService } from '../../services/onboardingService';
 
 export const Step2Address: React.FC = () => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     streetAddress: '',
     city: '',
@@ -16,9 +18,37 @@ export const Step2Address: React.FC = () => {
     country: 'United States'
   });
   const [loading, setLoading] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Load existing data when component mounts
+  React.useEffect(() => {
+    if (user) {
+      loadExistingData();
+    }
+  }, [user]);
+
+  const loadExistingData = async () => {
+    if (!user) return;
+
+    try {
+      const profile = await OnboardingService.getUserProfile(user.id);
+      if (profile?.location) {
+        setFormData({
+          streetAddress: profile.location.street_address || '',
+          city: profile.location.city || '',
+          state: profile.location.state || '',
+          postalCode: profile.location.postal_code || '',
+          country: profile.location.country || 'United States'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading existing data:', error);
+      showToast('error', 'Failed to load address data');
+    }
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -53,49 +83,28 @@ export const Step2Address: React.FC = () => {
     if (!validateForm() || !user) return;
 
     setLoading(true);
+    setSaveStatus('saving');
 
     try {
-      // First, get the current profile data to preserve existing data
-      const { data: currentProfile, error: fetchError } = await supabase
-        .from('profiles')
-        .select('address')
-        .eq('id', user.id)
-        .single();
-
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        console.error('Error fetching current profile:', fetchError);
-        setErrors({ general: 'Failed to load profile. Please try again.' });
-        return;
-      }
-
-      // Merge the address data with existing profile data
-      const existingAddress = currentProfile?.address || {};
-      const updatedAddress = {
-        ...existingAddress,
+      await OnboardingService.saveStep2Data(user.id, {
         street_address: formData.streetAddress,
         city: formData.city,
         state: formData.state,
         postal_code: formData.postalCode,
         country: formData.country
-      };
+      });
+      
+      // Save progress in onboarding service
+      await OnboardingService.updateOnboardingProgress(user.id, 2, formData);
 
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          address: updatedAddress,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id);
-
-      if (error) {
-        console.error('Error saving address:', error);
-        setErrors({ general: 'Failed to save address. Please try again.' });
-      } else {
-        navigate('/onboarding/step3');
-      }
+      setSaveStatus('saved');
+      showToast('success', 'Address information saved');
+      navigate('/user-onboarding/step3');
     } catch (err) {
       console.error('Unexpected error:', err);
       setErrors({ general: 'An unexpected error occurred' });
+      setSaveStatus('error');
+      showToast('error', 'Failed to save address information');
     } finally {
       setLoading(false);
     }
@@ -105,6 +114,31 @@ export const Step2Address: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+    
+    // Auto-save progress
+    if (user) {
+      setSaveStatus('idle');
+      const timer = setTimeout(() => {
+        saveProgress({ ...formData, [field]: value });
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  };
+  
+  const saveProgress = async (data: any) => {
+    if (!user) return;
+    
+    try {
+      setSaveStatus('saving');
+      await OnboardingService.updateOnboardingProgress(user.id, 2, data);
+      setSaveStatus('saved');
+      
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Error auto-saving progress:', error);
+      setSaveStatus('error');
     }
   };
 
@@ -119,6 +153,32 @@ export const Step2Address: React.FC = () => {
           <p className="text-red-600 text-sm">{errors.general}</p>
         </div>
       )}
+    
+    {/* Save Status Indicator */}
+    <div className="flex items-center justify-center space-x-2 text-sm mb-4">
+      {saveStatus === 'saving' && (
+        <>
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+          <span className="text-blue-600">Saving...</span>
+        </>
+      )}
+      {saveStatus === 'saved' && (
+        <>
+          <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span className="text-green-600">Progress saved</span>
+        </>
+      )}
+      {saveStatus === 'error' && (
+        <>
+          <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span className="text-red-600">Save failed</span>
+        </>
+      )}
+    </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
@@ -191,7 +251,7 @@ export const Step2Address: React.FC = () => {
         </div>
 
         <div className="flex justify-between pt-6">
-          <Button variant="ghost" onClick={() => navigate('/onboarding/step1')}>
+          <Button variant="ghost" onClick={() => navigate('/user-onboarding/step1')}>
             Back
           </Button>
           <Button type="submit" loading={loading}>

@@ -4,20 +4,49 @@ import { User, Calendar, Phone, Upload } from 'lucide-react';
 import { OnboardingLayout } from './OnboardingLayout';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext'; 
+import { useToast } from '../../contexts/ToastContext';
+import { OnboardingService } from '../../services/onboardingService';
 
 export const Step1Profile: React.FC = () => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     fullName: '',
     dateOfBirth: '',
-    phone: '',
+    phone_number: '',
     investmentExperience: 'beginner'
   });
   const [loading, setLoading] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Load existing data when component mounts
+  React.useEffect(() => {
+    if (user) {
+      loadExistingData();
+    }
+  }, [user]);
+
+  const loadExistingData = async () => {
+    if (!user) return;
+
+    try {
+      const profile = await OnboardingService.getUserProfile(user.id);
+      if (profile) {
+        setFormData({
+          fullName: profile.full_name || '',
+          dateOfBirth: profile.date_of_birth || '',
+          phone_number: profile.phone_number || '',
+          investmentExperience: 'beginner' // Default value
+        });
+      }
+    } catch (error) {
+      console.error('Error loading existing data:', error);
+      showToast('error', 'Failed to load profile data');
+    }
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -26,7 +55,7 @@ export const Step1Profile: React.FC = () => {
       newErrors.fullName = 'Full name is required';
     }
 
-    if (!formData.dateOfBirth) {
+    if (!formData.dateOfBirth.trim()) {
       newErrors.dateOfBirth = 'Date of birth is required';
     } else {
       const age = new Date().getFullYear() - new Date(formData.dateOfBirth).getFullYear();
@@ -35,8 +64,10 @@ export const Step1Profile: React.FC = () => {
       }
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
+    if (!formData.phone_number.trim()) {
+      newErrors.phone_number = 'Phone number is required';
+    } else if (!/^\+[1-9]\d{1,14}$/.test(formData.phone_number)) {
+      newErrors.phone_number = 'Phone number must be in E.164 format (e.g., +1234567890)';
     }
 
     setErrors(newErrors);
@@ -49,48 +80,31 @@ export const Step1Profile: React.FC = () => {
     if (!validateForm() || !user) return;
 
     setLoading(true);
+    setSaveStatus('saving');
 
     try {
-      // First, get the current profile data to preserve existing address info
-      const { data: currentProfile, error: fetchError } = await supabase
-        .from('profiles')
-        .select('address')
-        .eq('id', user.id)
-        .single();
-
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        console.error('Error fetching current profile:', fetchError);
-        setErrors({ general: 'Failed to load profile. Please try again.' });
-        return;
-      }
-
-      // Merge the new profile data with existing address data
-      const existingAddress = currentProfile?.address || {};
-      const updatedAddress = {
-        ...existingAddress,
+      await OnboardingService.saveStep1Data(user.id, {
+        full_name: formData.fullName,
         date_of_birth: formData.dateOfBirth,
+        phone_number: formData.phone_number
+      });
+      
+      // Save progress in onboarding service
+      await OnboardingService.updateOnboardingProgress(user.id, 1, {
+        full_name: formData.fullName,
+        date_of_birth: formData.dateOfBirth,
+        phone_number: formData.phone_number,
         investment_experience: formData.investmentExperience
-      };
+      });
 
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          full_name: formData.fullName,
-          phone: formData.phone,
-          address: updatedAddress,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id);
-
-      if (error) {
-        console.error('Error saving profile:', error);
-        setErrors({ general: 'Failed to save profile. Please try again.' });
-      } else {
-        navigate('/onboarding/step2');
-      }
+      setSaveStatus('saved');
+      showToast('success', 'Profile information saved');
+      navigate('/user-onboarding/step2');
     } catch (err) {
       console.error('Unexpected error:', err);
       setErrors({ general: 'An unexpected error occurred' });
+      setSaveStatus('error');
+      showToast('error', 'Failed to save profile information');
     } finally {
       setLoading(false);
     }
@@ -101,6 +115,40 @@ export const Step1Profile: React.FC = () => {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
+    
+    // Auto-save progress after delay
+    if (user) {
+      setSaveStatus('idle');
+      const timer = setTimeout(() => {
+        saveProgress({ ...formData, [field]: value });
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  };
+
+  const saveProgress = async (data: any) => {
+    if (!user) return;
+    
+    try {
+      setSaveStatus('saving');
+      await OnboardingService.updateOnboardingProgress(user.id, 1, data);
+      setSaveStatus('saved');
+      
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Error auto-saving progress:', error);
+      setSaveStatus('error');
+    }
+  };
+
+  // Format phone number to E.164
+  const formatPhoneNumber = (value: string) => {
+    // Auto-format to E.164 if user enters without +
+    if (value && !value.startsWith('+')) {
+      return `+${value.replace(/\D/g, '')}`;
+    }
+    return value;
   };
 
   return (
@@ -114,6 +162,32 @@ export const Step1Profile: React.FC = () => {
           <p className="text-red-600 text-sm">{errors.general}</p>
         </div>
       )}
+    
+    {/* Save Status Indicator */}
+    <div className="flex items-center justify-center space-x-2 text-sm mb-4">
+      {saveStatus === 'saving' && (
+        <>
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+          <span className="text-blue-600">Saving...</span>
+        </>
+      )}
+      {saveStatus === 'saved' && (
+        <>
+          <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span className="text-green-600">Progress saved</span>
+        </>
+      )}
+      {saveStatus === 'error' && (
+        <>
+          <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span className="text-red-600">Save failed</span>
+        </>
+      )}
+    </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
@@ -140,10 +214,11 @@ export const Step1Profile: React.FC = () => {
           type="tel"
           label="Phone Number"
           icon={Phone}
-          value={formData.phone}
-          onChange={(e) => handleInputChange('phone', e.target.value)}
-          error={errors.phone}
+          value={formData.phone_number}
+          onChange={(e) => handleInputChange('phone_number', formatPhoneNumber(e.target.value))}
+          error={errors.phone_number}
           placeholder="+1 (555) 123-4567"
+          helperText="Enter in E.164 format (e.g., +1234567890)"
         />
 
         <div className="space-y-2">

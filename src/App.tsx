@@ -13,6 +13,10 @@ import EditProfile from './pages/EditProfile';
 import { InvestorOnboardingFlow } from './components/investor/InvestorOnboardingFlow';
 import { Dashboard } from './pages/Dashboard';
 import { Portfolio } from './pages/Portfolio';
+import { OnboardingLayout } from './pages/onboarding/OnboardingLayout';
+import { Step1Profile } from './pages/onboarding/Step1Profile';
+import { Step2Address } from './pages/onboarding/Step2Address';
+import { Step3Goals } from './pages/onboarding/Step3Goals';
 import Transactions from './pages/Transactions';
 import Wallet from './pages/Wallet';
 import MyGoals from './pages/MyGoals';
@@ -58,7 +62,32 @@ function App() {
                 <ProtectedRoute>
                   <InvestorOnboardingFlow />
                 </ProtectedRoute>
-              } />
+              }/>
+            
+              {/* General User Onboarding Routes */}
+              <Route path="/user-onboarding" element={
+                <ProtectedRoute>
+                  <Navigate to="/user-onboarding/step1" replace />
+                </ProtectedRoute>
+              }/>
+              
+              <Route path="/user-onboarding/step1" element={
+                <ProtectedRoute>
+                  <Step1Profile />
+                </ProtectedRoute>
+              }/>
+              
+              <Route path="/user-onboarding/step2" element={
+                <ProtectedRoute>
+                  <Step2Address />
+                </ProtectedRoute>
+              }/>
+              
+              <Route path="/user-onboarding/step3" element={
+                <ProtectedRoute>
+                  <Step3Goals />
+                </ProtectedRoute>
+              }/>
 
             <Route path="/dashboard" element={
               <ProtectedRoute requireOnboardingComplete={true}>
