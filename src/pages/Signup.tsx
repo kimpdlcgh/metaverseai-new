@@ -59,7 +59,9 @@ export default function Signup() {
       console.error('Signup error:', err);
       
       // Handle specific error cases
-      if (err.message?.includes('User already registered')) {
+      if (err.message?.includes('over_email_send_rate_limit') || err.message?.includes('email rate limit exceeded')) {
+        setError('Too many signup attempts from this IP address. Please wait a few minutes before trying again.');
+      } else if (err.message?.includes('User already registered')) {
         setError('An account with this email already exists. Please try logging in instead.');
       } else if (err.message?.includes('confirmation email')) {
         setError('There was an issue with email verification. Please contact support or try again later.');
