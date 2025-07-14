@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Lock, User, AlertCircle, ChevronsRight, Facebook } f
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -16,7 +17,8 @@ export default function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -83,19 +85,24 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900' : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'} flex items-center justify-center p-4`}>
+      <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg')] bg-cover bg-center opacity-10"></div>
+      
+      <div className="relative w-full max-w-md">
+        <div className={`${isDarkMode ? 'bg-gray-800/95 text-white' : 'bg-white/95'} backdrop-blur-sm rounded-2xl shadow-2xl p-8 sm:p-10`}>
           <div className="text-center mb-8">
             <div className="w-32 h-32 mx-auto mb-6">
               <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-3 font-lexend">Create Account</h1>
-            <p className="text-gray-600 text-lg">Join thousands of successful traders</p>
+            <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
+              <img src="/metaverseailogo.svg" alt="MetaverseAI Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} mb-3 font-lexend`}>Create Account</h1>
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-slate-600'}`}>Join thousands of successful traders</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
+            <div className={`mb-6 p-4 ${isDarkMode ? 'bg-red-900/30 border-red-800' : 'bg-red-50 border-red-200'} border rounded-lg flex items-center gap-3`}>
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
               <p className="text-red-600 text-sm">{error}</p>
             </div>
@@ -192,10 +199,9 @@ export default function Signup() {
               </div>
             </div>
 
-            <Button
+            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
             >
               {loading ? 'Creating Account...' : 'Create Account'}
             </Button>
@@ -203,16 +209,16 @@ export default function Signup() {
           
           {/* Divider */}
           <div className="mt-6 mb-6 flex items-center">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-500 text-sm">OR</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+            <div className={`flex-grow border-t ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}></div>
+            <span className={`mx-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm`}>OR</span>
+            <div className={`flex-grow border-t ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}></div>
           </div>
           
           {/* Social Login Options */}
           <div className="space-y-3">
             <button 
               type="button"
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-50 transition-colors"
+              className={`w-full flex items-center justify-center gap-3 border ${isDarkMode ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} rounded-lg py-2 px-4 transition-colors`}
               onClick={() => navigate('/dashboard')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
@@ -225,7 +231,7 @@ export default function Signup() {
             </button>
             <button 
               type="button" 
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-50 transition-colors"
+              className={`w-full flex items-center justify-center gap-3 border ${isDarkMode ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} rounded-lg py-2 px-4 transition-colors`}
               onClick={() => navigate('/dashboard')}
             >
               <Facebook className="text-[#1877F2]" size={24} />
@@ -234,19 +240,16 @@ export default function Signup() {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-slate-600'}`}>
               Already have an account?{' '}
-              <Link
-                to="/login"
-                className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
-              >
+              <Link to="/login" className={`${isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'} font-medium`}>
                 Sign in
               </Link>
             </p>
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500">
+            <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               By creating an account, you agree to our Terms of Service and Privacy Policy
             </p>
           </div>
