@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
+  const [onboardingCheckInProgress, setOnboardingCheckInProgress] = useState<boolean>(false);
 
   const checkOnboardingStatus = async () => {
     if (!user) {
